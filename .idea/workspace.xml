@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="5e89883c-af72-4a2c-a3df-36a6e165f68a" name="Changes" comment="General:&#10;- .idea folder removed" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2U0K1s6VQvJqwOsl9lBq2jkm4N6" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "D:/OneDrive/Académico/Investigación/(2023 - 1) Music Tech/(2023 - 2) Correntropy based real-time pitch detection/Testing frequencies",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\OneDrive\Académico\Investigación\(2023 - 1) Music Tech\(2023 - 1) Ghostly sounds\QDTS\3. Experiments\Experiment 3. Proof of conjecture" />
+      <recent name="D:\OneDrive\Académico\Investigación\(2023 - 1) Music Tech\(2023 - 1) Ghostly sounds\QDTS\3. Experiments\Experiment 2. Iterations amount" />
+      <recent name="D:\OneDrive\Académico\Investigación\(2023 - 1) Music Tech\(2023 - 1) Ghostly sounds\QDTS\3. Experiments" />
+      <recent name="D:\OneDrive\Académico\Investigación\(2023 - 1) Music Tech\(2023 - 1) Ghostly sounds\QDTS\2. Demos\Example 6 - Clarinet" />
+      <recent name="D:\OneDrive\Académico\Investigación\(2023 - 1) Music Tech\(2023 - 1) Ghostly sounds\QDTS\2. Demos\Example 5 - Tuba" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\OneDrive\Académico\Investigación\(2023 - 1) Music Tech\(2023 - 1) Ghostly sounds\QDTS\2. Demos\Example 6 - Clarinet" />
+      <recent name="D:\OneDrive\Académico\Investigación\(2023 - 1) Music Tech\(2023 - 1) Ghostly sounds\QDTS" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="5e89883c-af72-4a2c-a3df-36a6e165f68a" name="Changes" comment="" />
+      <created>1692070845298</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1692070845298</updated>
+      <workItem from="1692070847119" duration="62000" />
+      <workItem from="1692071077299" duration="14532000" />
+      <workItem from="1692666000398" duration="7138000" />
+      <workItem from="1693362991264" duration="202000" />
+    </task>
+    <task id="LOCAL-00001" summary="Directories added.">
+      <created>1692071248282</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1692071248282</updated>
+    </task>
+    <task id="LOCAL-00002" summary="MAX external:&#10;- A build for Windows and Mac OS were added.&#10;- The code necessary to build the external was added.&#10;- Some example patches were added.&#10;- A readme for each subfolder was added.&#10;&#10;Demos:&#10;- All the demos of the paper were included.&#10;- A readme for each demo was added.&#10;&#10;General:&#10;- A simple README file was added.">
+      <created>1692084283055</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1692084283055</updated>
+    </task>
+    <task id="LOCAL-00003" summary="MAX external:&#10;- A build for Windows and Mac OS were added.&#10;- The code necessary to build the external was added.&#10;- Some example patches were added.&#10;- A readme for each subfolder was added.&#10;&#10;Demos:&#10;- All the demos of the paper were included.&#10;- A readme for each demo was added.&#10;&#10;Experiments:&#10;- All the experiments were added.&#10;&#10;General:&#10;- A simple README file was added.">
+      <created>1692084481295</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1692084481295</updated>
+    </task>
+    <task id="LOCAL-00004" summary="MAX external:&#10;- A build for Windows and Mac OS were added.&#10;- The code necessary to build the external was added.&#10;- Some example patches were added.&#10;- A readme for each subfolder was added.&#10;&#10;Demos:&#10;- All the demos of the paper were included.&#10;- A readme for each demo was added.&#10;&#10;Experiments:&#10;- All the experiments were added.&#10;&#10;General:&#10;- A simple README file was added.">
+      <created>1692085281107</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1692085281107</updated>
+    </task>
+    <task id="LOCAL-00005" summary="MAX external:&#10;- A build for Windows and Mac OS were added.&#10;- The code necessary to build the external was added.&#10;- Some example patches were added.&#10;- A readme for each subfolder was added.&#10;&#10;Demos:&#10;- All the demos of the paper were included.&#10;- A readme for each demo was added.&#10;&#10;Experiments:&#10;- All the experiments were added.&#10;&#10;General:&#10;- A simple README file was added.">
+      <created>1692085444203</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1692085444203</updated>
+    </task>
+    <task id="LOCAL-00006" summary="General:&#10;- Some extra README file were added to many of the subsections.">
+      <created>1692671612087</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1692671612087</updated>
+    </task>
+    <task id="LOCAL-00007" summary="General:&#10;- .idea folder removed">
+      <created>1692672001262</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1692672001262</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Directories added." />
+    <MESSAGE value="MAX external:&#10;- A build for Windows and Mac OS were added.&#10;- The code necessary to build the external was added.&#10;- Some example patches were added.&#10;- A readme for each subfolder was added.&#10;&#10;Demos:&#10;- All the demos of the paper were included.&#10;- A readme for each demo was added.&#10;&#10;General:&#10;- A simple README file was added." />
+    <MESSAGE value="MAX external:&#10;- A build for Windows and Mac OS were added.&#10;- The code necessary to build the external was added.&#10;- Some example patches were added.&#10;- A readme for each subfolder was added.&#10;&#10;Demos:&#10;- All the demos of the paper were included.&#10;- A readme for each demo was added.&#10;&#10;Experiments:&#10;- All the experiments were added.&#10;&#10;General:&#10;- A simple README file was added." />
+    <MESSAGE value="General:&#10;- Some extra README file were added to many of the subsections." />
+    <MESSAGE value="General:&#10;- .idea folder removed" />
+    <option name="LAST_COMMIT_MESSAGE" value="General:&#10;- .idea folder removed" />
+  </component>
+</project>
