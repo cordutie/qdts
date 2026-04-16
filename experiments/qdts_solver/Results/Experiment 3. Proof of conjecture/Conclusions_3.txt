@@ -1,0 +1,1 @@
+Using 10000 targets around 60 bad targets were found, and for every bad target T, a random vector V was found in a way that T+epsilon*V is solvable.

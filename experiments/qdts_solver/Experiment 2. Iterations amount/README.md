@@ -1,0 +1,7 @@
+## Experiment 2 - Adjusting the Newton-Raphson algorithm to the problem
+
+The Newton-Raphson algorithm is known for its efficiency provided that it is known to converge, however since in our case we do not have certainty of its convergence, it is important to decide how many iterations will be tolerated before the process restarts with different initial condition and target.
+
+In order to find a reasonable tolerance, we conducted an experiment that estimate the number of iterations needed for the algorithm to converge provided that it converges. For this task, we made a sample of $10^6$ _target_ distributions of amplitudes chosen at random in the space $[0,1]^n$ for each of the cases $n=8,12$ and $16$. For each _target_, we tried the algorithm with random initial conditions chosen in the space of ideal solutions $[0,1]^n$ up to $10$ times each, and for the cases that could be solved with these constraints, the number of iterations needed to find a solution was saved.
+
+As a conclusion for the results found in this experiment, we decided that the tolerance will be fixed to satisfy at least $99\%$ of the cases, that is, the algorithm will restart once it reaches the percentile $99$ for each case. Finally, it is remarkable that with the data obtained and using a simple test of proportions, we can conclude that with a confidence of $99\%$, the proportion of the cases that can be solved in less than $10$ tries (which is extremely fast and can be computed in real-time) correspond to at least the $99.45\%$ of the cases.

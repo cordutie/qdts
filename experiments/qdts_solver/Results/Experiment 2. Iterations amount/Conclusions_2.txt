@@ -1,0 +1,71 @@
+After testing with 50000 random choices for targets with different sizes, the measure of the set of solvable cases has being approximated to 0.96, i.e. the bad targets are around 0.6% of the total.
+
+Additionally, provided that the solution can be found, several tolerances have being used to test the amount of iterations needed to get to the solution. The following are the results of such tests:
+
+For n=8 equations
+
+Using tolerance = 20:
+mean          = 23.165310836597367
+percentile 90 = 33.0
+percentile 99 = 174.76000000000204
+
+Using tolerance = 30:
+mean          = 25.597067389776036
+percentile 90 = 38.0
+percentile 99 = 161.0
+
+Using tolerance = 40:
+mean          = 25.54474239228683
+percentile 90 = 45.0
+percentile 99 = 206.88000000000102
+
+Using tolerance = 50:
+mean          = 28.582103043085265
+percentile 90 = 53.0
+percentile 99 = 223.4400000000005
+
+For n=12 equations
+
+Using tolerance = 20:
+mean          = 20.887662988966902
+percentile 90 = 47.0
+percentile 99 = 100.31999999999971
+
+Using tolerance = 30:
+mean          = 22.795386158475427
+percentile 90 = 49.0
+percentile 99 = 113.79999999999927
+
+Using tolerance = 40:
+mean          = 24.288866599799398
+percentile 90 = 53.0
+percentile 99 = 156.3199999999997
+
+Using tolerance = 50:
+mean          = 25.690070210631895
+percentile 90 = 58.0
+percentile 99 = 190.59999999999945
+
+For n=16 equations
+
+Using tolerance = 20:
+mean          = 30.275275275275277
+percentile 90 = 66.20000000000005
+percentile 99 = 136.27999999999975
+
+Using tolerance = 30:
+mean          = 29.036036036036037
+percentile 90 = 61.00000000000023
+percentile 99 = 129.05999999999995
+
+Using tolerance = 40:
+mean          = 29.33733733733734
+percentile 90 = 61.0
+percentile 99 = 147.1199999999999
+
+Using tolerance = 50:
+mean          = 30.663663663663662
+percentile 90 = 66.20000000000005
+percentile 99 = 165.29999999999973
+
+As a conclusion, the tolerance has been decided to be fixed to 33 for the implementation.

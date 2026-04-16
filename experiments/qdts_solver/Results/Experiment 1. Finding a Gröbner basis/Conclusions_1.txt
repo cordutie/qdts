@@ -1,0 +1,1 @@
+Finding a Gröbner basis is extremely computational expensive for more than 6 equations. For n less or equal 6 equations, the Gröbner basis can be found in the other files in this folder.
