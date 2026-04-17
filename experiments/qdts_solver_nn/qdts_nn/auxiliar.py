@@ -4,7 +4,7 @@
 # ==============================
 import torch
 import torch.nn as nn
-from model import model_creator
+from qdts_nn.model import model_creator
 
 # ==============================
 # Save/Load

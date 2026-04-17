@@ -36,6 +36,10 @@ def distortion_function(X: torch.Tensor) -> torch.Tensor:
     
     return Z
 
+# example usage:
+# X = torch.tensor([[1.0, 2.0, 3.0, 4.0]]) = a0, a1, a2, a3
+# print(distortion_function(X)) # should output tensor([[ 4., 11., 20.]]) = t1, t2, t3
+
 # ==============================
 # Losses Functions
 # ==============================

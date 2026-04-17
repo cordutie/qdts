@@ -2,12 +2,16 @@
   
 # QDTS
 
-[**Rodrigo Cádiz**](https://rodrigocadiz.com/music/)<sup>1,2</sup>, [**Esteban Gutiérrez**](https://github.com/cordutie)<sup>3</sup>, and [**Christopher Haworth**](https://www.birmingham.ac.uk/staff/profiles/music/haworth-christopher.aspx)<sup>4</sup>
+[**Esteban Gutiérrez**](https://cordutie.github.io/)<sup>1</sup>,
+[**Behzad Haki**](https://behzadhaki.com/),
+[**Christopher Haworth**](https://www.birmingham.ac.uk/staff/profiles/music/haworth-christopher.aspx)<sup>2</sup>,
+[**Rodrigo Cádiz**](https://rodrigocadiz.com/music/)<sup>3,4</sup>, and 
+[**Xavier Serra**](https://www.upf.edu/web/xavier-serra)<sup>1</sup>
 
-<sup>1</sup> *Music Institute, Pontificia Universidad Católica de Chile* <br>
-<sup>2</sup> *Department of Electrical Enginering, Pontificia Universidad Católica de Chile* <br>
-<sup>3</sup> *Department of Information and Communications Technologies, Universitat Pompeu Fabra* <br>
-<sup>4</sup> *Department of Music, University of Birmingham* <br>
+<sup>1</sup> *Department of Information and Communications Technologies, Universitat Pompeu Fabra* <br>
+<sup>2</sup> *Department of Music, University of Birmingham* <br>
+<sup>3</sup> *Music Institute, Pontificia Universidad Católica de Chile* <br>
+<sup>4</sup> *Department of Electrical Enginering, Pontificia Universidad Católica de Chile* <br>
 
 <div align="left">
 
@@ -19,59 +23,28 @@ pure tones are used to generate the perceptual illusion of a third
 pure tone. This ADPs have been thoroughly studied and compared in the
 last decades (see e.g. [[1]](#1), [[2]](#2) and [[3]](#3)),
 and the necessary conditions to generate them are well known.
-Quadratic Difference Tone Spectra (QDTS) on the other side, is a 
+A Quadratic Difference Tone Spectrum (QDTS) on the other side, is a 
 new kind of ADP where several pure tones are combined to generate a 
-full spectra made out of QDT.
+full spectrum made out of QDTs.
 
 The theory behind the construction of a QDTS was first introduced in 
-[[4]](#4), and a real-time algorithm that solves the computations
-needed to generate any given QDTS was first introduced in [[5]](#5).
+[[4]](#4), and a iterative method that solves the computations
+needed to generate any given QDTS was first introduced in [[5]](#5). 
 
-This repository contains an implementation as a MAX external of 
-the algorithm built in [[5]](#5) to generate QDTS presented at the 
-International Computer Music Conference 2023 hosted in the Chinese 
-University of Hong Kong.
+This repository contains an implementation as a Max external of 
+the algorithm built in [[5]](#5) to generate QDTS. Additionally, a neural network approach to solve the same problem in a more controllable manner is added in this repository.
 
 [![Alt text](https://i3.ytimg.com/vi/UodLZ9XQ_S0/maxresdefault.jpg)](https://youtu.be/UodLZ9XQ_S0)
 
-## Contents
+## Experiments
 
-The three main folders of the repository contain the implementation
-in MAX, some example patches recorded in video and the experiments
-that supported the contruction of the algorithm itself respectively.
+The algorithms implemented use several standard mathematical and deep learning methods, however due to its heuristic nature, several experiments were made to validate them.
 
-### 1. MAX external
+The experiments folder contains several python scripts that were used to gain a better understanding of the problem, to train the deep learning models and finally to validate the algorithms.
 
-In this folder everything related to the MAX external can be found.
+## Max
 
-- The subfolder **Builds** contains current builds for the external
-for the Windows and MAC operative systems. A little tutorial on how
-to run the external can also be found in this subfolder.
-
-- The subfolder **Code** contains the necessary code to build the MAX
-external in case that the current builds stopped working. A little
-tutorial on how to build the MAX external can also be found in this
-subfolder.
-
-- The subfolder **Patches** contains several MAX files that can be used 
-to easily manipulate the MAX external. 
-
-### 2. Demos
-
-In this folder, several video demos of the MAX external. Each demo 
-contains a brief readme file containing a description of it, an 
-uncompressed audio file of the demo and a series of patches to recreate
-the video demo locally.
-
-### 3. Experiments
-
-The algorithm implemented uses several standard mathematical tools,
-however due to its heuristic nature, several experiments were made 
-prior to its construction in order to fully understand the problem.
-
-In each subfolder, a python project containing the experiment can be
-found together with a brief readme file containing a description of
-the experiment itself.  
+The max folder contains the source code to compile the objects and some example patches that can be used to try the models.
 
 ## References
 
