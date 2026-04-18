@@ -12,16 +12,16 @@
  *
  * Outlets  (send right-to-left for safe downstream chaining)
  * -------
- *   1  (list)   Carrier amplitudes  — non-clamped         (N+1 floats)
- *   2  (float)  Reconstruction error — non-clamped        (MSE)
- *   3  (list)   Carrier amplitudes  — clamped to [−2, 2]  (N+1 floats)
- *   4  (float)  Reconstruction error — clamped            (MSE)
+ *   1  (list)   Carrier amplitudes             (N+1 floats)
+ *   2  (float)  Reconstruction error           (MSE)
  *
  * Inspector attributes
  * --------------------
+ *   clamp    bool   When ON, outputs the clamped carriers (clamped to [−2, 2])
+ *                   and the corresponding clamped reconstruction error.
+ *                   When OFF (default), outputs the raw network prediction.
  *   variant  long   Model variant index, 0-based, alphabetical order (0–15).
  *                   If out of range, the highest valid index is used with a warning.
- *   clamp    bool   Informational flag; all four outlets always fire regardless.
  */
 
 #include "c74_min.h"
@@ -48,30 +48,29 @@ class solver_nn : public object<solver_nn> {
 public:
     MIN_DESCRIPTION { "Neural-network QDTS solver. "
                       "Receives a list of N target amplitudes (N=5..16) and outputs "
-                      "carrier complex amplitudes (clamped and non-clamped) to 4 outlets." };
+                      "carrier amplitudes and reconstruction error. "
+                      "Set the 'clamp' attribute to return values clamped to [-2, 2]." };
     MIN_TAGS        { "math, operators" };
     MIN_AUTHOR      { "Gutierrez, E. and Cadiz, R." };
 
     // ── Inlets / Outlets ─────────────────────────────────────────────────────
-    inlet<>  in_target   { this, "(list) target amplitude distribution (N floats, N = 5..16)" };
+    inlet<>  in_target  { this, "(list) target amplitude distribution (N floats, N = 5..16)" };
 
-    outlet<> out_carrier    { this, "(list) carrier amplitudes, non-clamped" };
-    outlet<> out_error      { this, "(float) reconstruction error, non-clamped" };
-    outlet<> out_carrier_c  { this, "(list) carrier amplitudes, clamped to [-2, 2]" };
-    outlet<> out_error_c    { this, "(float) reconstruction error, clamped" };
+    outlet<> out_carrier { this, "(list) carrier amplitudes (N+1 floats)" };
+    outlet<> out_error   { this, "(float) reconstruction error (MSE)" };
 
     // ── Inspector attributes ──────────────────────────────────────────────────
+    attribute<bool> clamp { this, "clamp", false,
+        description { "When ON, outlet 1 carries amplitudes clamped to [−2, 2] "
+                      "and outlet 2 carries the corresponding clamped MSE. "
+                      "When OFF (default), the raw network prediction is returned." }
+    };
+
     attribute<long> variant { this, "variant", 0,
         description { "Model variant index (0–15). "
                       "Selects among the 16 trained checkpoints for the given N "
                       "(sorted alphabetically by filename). "
                       "Out-of-range values are clamped to the highest valid index." }
-    };
-
-    attribute<bool> clamp { this, "clamp", false,
-        description { "Informational flag. "
-                      "All four outlets fire regardless. "
-                      "Use it to annotate your patch about intended usage." }
     };
 
     // ── Constructor ───────────────────────────────────────────────────────────
@@ -106,7 +105,7 @@ public:
                 vi = NUM_VARIANTS - 1;
             }
 
-            // ── Load / switch session when N changes ───────────────────────────
+            // ── Load / switch session when N changes ──────────────────────────
             if (n != cached_n_) {
                 load_session(n);
                 cached_n_ = n;
@@ -152,24 +151,23 @@ public:
                 return {};
             }
 
-            // ── Extract results ───────────────────────────────────────────────
-            // X_hat / X_hat_clamped: (1, n+1)  → trim batch dim
-            const float* x_ptr   = outputs[0].GetTensorData<float>();
-            const float* xc_ptr  = outputs[2].GetTensorData<float>();
-            const float  err     = *outputs[1].GetTensorData<float>();
-            const float  err_c   = *outputs[3].GetTensorData<float>();
+            // ── Select clamped or raw outputs based on 'clamp' attribute ──────
+            const bool use_clamped = clamp.get();
+
+            const float* x_ptr = use_clamped
+                ? outputs[2].GetTensorData<float>()   // X_hat_clamped
+                : outputs[0].GetTensorData<float>();   // X_hat
+
+            const float err = use_clamped
+                ? *outputs[3].GetTensorData<float>()  // error_clamped
+                : *outputs[1].GetTensorData<float>(); // error
 
             const int out_size = n + 1;
+            atoms carrier(out_size);
+            for (int i = 0; i < out_size; ++i)
+                carrier[i] = x_ptr[i];
 
-            atoms carrier(out_size), carrier_c(out_size);
-            for (int i = 0; i < out_size; ++i) {
-                carrier[i]   = x_ptr[i];
-                carrier_c[i] = xc_ptr[i];
-            }
-
-            // ── Send outputs right-to-left ─────────────────────────────────────
-            out_error_c.send(err_c);
-            out_carrier_c.send(carrier_c);
+            // ── Send outlets right-to-left ─────────────────────────────────────
             out_error.send(err);
             out_carrier.send(carrier);
 
@@ -183,7 +181,7 @@ public:
             cout << "qdts.solver_nn status:" << endl;
             cout << "  cached N      : " << cached_n_ << endl;
             cout << "  variant       : " << variant.get() << endl;
-            cout << "  clamp         : " << (clamp.get() ? "true" : "false") << endl;
+            cout << "  clamp         : " << (clamp.get() ? "on" : "off") << endl;
             cout << "  session loaded: " << (session_ ? "yes" : "no") << endl;
             cout << "  onnx env ok   : " << (ONNXManager::is_available() ? "yes" : "no") << endl;
             if (cached_n_ >= N_MIN) {
