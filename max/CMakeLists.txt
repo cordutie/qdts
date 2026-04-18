@@ -45,18 +45,31 @@ if(PLATFORM_MACOS)
     endif()
 endif()
 
-# ── Min-API (C++ wrapper for Max externals, includes Eigen) ────────────────────
+# ── Min-API (C++ wrapper for Max externals) ────────────────────────────────────
 include(cmake/CPM.cmake)
 CPMAddPackage(
     NAME MinAPI
     GITHUB_REPOSITORY Cycling74/min-api
     GIT_TAG main
+    GIT_SUBMODULES_RECURSE YES
 )
 if(NOT MinAPI_ADDED)
     message(FATAL_ERROR "Failed to fetch Min-API via CPM.")
 endif()
 set(MIN_API_ROOT ${MinAPI_SOURCE_DIR})
 message(STATUS "Min-API: ${MIN_API_ROOT}")
+
+# ── Eigen (linear algebra, used by qdts.solver) ────────────────────────────────
+CPMAddPackage(
+    NAME Eigen3
+    GIT_REPOSITORY https://gitlab.com/libeigen/eigen.git
+    GIT_TAG 3.4.0
+    DOWNLOAD_ONLY YES
+)
+if(NOT Eigen3_ADDED)
+    message(FATAL_ERROR "Failed to fetch Eigen3 via CPM.")
+endif()
+message(STATUS "Eigen3: ${Eigen3_SOURCE_DIR}")
 
 # ── Max SDK (needed for MaxAPI.lib / MaxAudio.lib on Windows) ─────────────────
 set(MAX_SDK_ROOT "${CMAKE_SOURCE_DIR}/lib/max-sdk")
@@ -208,10 +221,14 @@ else()
 endif()
 
 # ── Common include paths ───────────────────────────────────────────────────────
+# Min-API bundles max-sdk-base as a submodule at ${MIN_API_ROOT}/max-sdk-base/
+# (c74_max.h, c74_msp.h, etc. live directly in max-sdk-base/c74support/)
 set(COMMON_INCLUDES
-    ${MIN_API_ROOT}/include                             # c74_min.h + Eigen
-    ${MAX_SDK_ROOT}/source/max-sdk-base/c74support
-    ${MAX_SDK_ROOT}/source/max-sdk-base/c74support/max-includes
+    ${MIN_API_ROOT}/include                             # c74_min.h
+    ${MIN_API_ROOT}/max-sdk-base/c74support             # c74_max.h, c74_msp.h
+    ${MIN_API_ROOT}/max-sdk-base/c74support/max-includes
+    ${MIN_API_ROOT}/max-sdk-base/c74support/msp-includes
+    ${Eigen3_SOURCE_DIR}                                # Eigen/Dense
     ${ONNX_ROOT_DIR}/include                            # onnxruntime_cxx_api.h
     ${CMAKE_SOURCE_DIR}/source/include                  # qdts_shared.h, onnx_helpers.h
 )
@@ -235,34 +252,45 @@ set(MAX_EXTERNALS_DIR "${MAX_PACKAGE_DIR}/externals")
 set(MAX_RESOURCES_DIR "${MAX_PACKAGE_DIR}/resources")
 message(STATUS "Package: ${MAX_PACKAGE_DIR}")
 
-# ── Helper: deployment ─────────────────────────────────────────────────────────
-function(setup_external_deployment TARGET_NAME)
-    if(PLATFORM_WINDOWS)
+# ── Helper: codesigning only (runs as POST_BUILD on macOS) ────────────────────
+function(setup_codesigning TARGET_NAME)
+    if(PLATFORM_MACOS AND ENABLE_CODESIGNING)
+        set(BUNDLE_PATH "${CMAKE_BINARY_DIR}/${TARGET_NAME}.${EXTERNAL_EXTENSION}")
         add_custom_command(TARGET ${TARGET_NAME} POST_BUILD
+            COMMAND xattr -r -d com.apple.quarantine "${BUNDLE_PATH}" || true
+            COMMAND codesign ${CODESIGN_FLAGS} "${BUNDLE_PATH}"
+            COMMENT "Codesigning ${TARGET_NAME}"
+            VERBATIM
+        )
+    endif()
+endfunction()
+
+# ── Helper: deployment (separate 'deploy' target, not run automatically) ───────
+# Requires Terminal / CLion to have Full Disk Access (System Settings →
+# Privacy & Security → Full Disk Access) to write into ~/Documents/Max N/.
+function(setup_external_deployment TARGET_NAME)
+    set(BUNDLE_PATH "${CMAKE_BINARY_DIR}/${TARGET_NAME}.${EXTERNAL_EXTENSION}")
+    set(_DEPLOY_TARGET "deploy_${TARGET_NAME}")
+
+    if(PLATFORM_WINDOWS)
+        add_custom_target(${_DEPLOY_TARGET}
             COMMAND ${CMAKE_COMMAND} -E make_directory "${MAX_EXTERNALS_DIR}"
             COMMAND ${CMAKE_COMMAND} -E copy_if_different
                 "${CMAKE_BINARY_DIR}/${TARGET_NAME}.${EXTERNAL_EXTENSION}"
                 "${MAX_EXTERNALS_DIR}/${TARGET_NAME}.${EXTERNAL_EXTENSION}"
-            COMMENT "Deployed ${TARGET_NAME}.${EXTERNAL_EXTENSION}"
+            COMMENT "Deploying ${TARGET_NAME}.${EXTERNAL_EXTENSION} → ${MAX_EXTERNALS_DIR}"
+            DEPENDS ${TARGET_NAME}
         )
     else()
-        set(BUNDLE_PATH "${CMAKE_BINARY_DIR}/${TARGET_NAME}.${EXTERNAL_EXTENSION}")
-        if(ENABLE_CODESIGNING)
-            add_custom_command(TARGET ${TARGET_NAME} POST_BUILD
-                COMMAND xattr -r -d com.apple.quarantine "${BUNDLE_PATH}" || true
-                COMMAND codesign ${CODESIGN_FLAGS} "${BUNDLE_PATH}"
-                COMMENT "Codesigning ${TARGET_NAME}"
-                VERBATIM
-            )
-        endif()
-        add_custom_command(TARGET ${TARGET_NAME} POST_BUILD
+        add_custom_target(${_DEPLOY_TARGET}
             COMMAND ${CMAKE_COMMAND} -E make_directory "${MAX_EXTERNALS_DIR}"
             COMMAND ${CMAKE_COMMAND} -E remove_directory
                 "${MAX_EXTERNALS_DIR}/${TARGET_NAME}.${EXTERNAL_EXTENSION}"
             COMMAND ${CMAKE_COMMAND} -E copy_directory
                 "${BUNDLE_PATH}"
                 "${MAX_EXTERNALS_DIR}/${TARGET_NAME}.${EXTERNAL_EXTENSION}"
-            COMMENT "Deployed ${TARGET_NAME}.${EXTERNAL_EXTENSION}"
+            COMMENT "Deploying ${TARGET_NAME}.${EXTERNAL_EXTENSION} → ${MAX_EXTERNALS_DIR}"
+            DEPENDS ${TARGET_NAME}
         )
     endif()
 endfunction()
@@ -274,7 +302,7 @@ function(create_simple_external TARGET_NAME SOURCE_FILE)
 
     if(PLATFORM_WINDOWS)
         find_library(MAXAPI_LIB MaxAPI
-            PATHS "${MAX_SDK_ROOT}/source/max-sdk-base/c74support/max-includes/x64"
+            PATHS "${MIN_API_ROOT}/max-sdk-base/c74support/max-includes/x64"
             NO_DEFAULT_PATH)
         if(NOT MAXAPI_LIB)
             message(FATAL_ERROR "MaxAPI.lib not found in Max SDK")
@@ -295,6 +323,7 @@ function(create_simple_external TARGET_NAME SOURCE_FILE)
         configure_file(${CMAKE_SOURCE_DIR}/cmake/Info.plist.in
             ${CMAKE_BINARY_DIR}/${TARGET_NAME}.${EXTERNAL_EXTENSION}/Contents/Info.plist @ONLY)
     endif()
+    setup_codesigning(${TARGET_NAME})
     setup_external_deployment(${TARGET_NAME})
 endfunction()
 
@@ -305,7 +334,7 @@ function(create_onnx_external TARGET_NAME SOURCE_FILE)
 
     if(PLATFORM_WINDOWS)
         find_library(MAXAPI_LIB MaxAPI
-            PATHS "${MAX_SDK_ROOT}/source/max-sdk-base/c74support/max-includes/x64"
+            PATHS "${MIN_API_ROOT}/max-sdk-base/c74support/max-includes/x64"
             NO_DEFAULT_PATH)
         if(NOT MAXAPI_LIB)
             message(FATAL_ERROR "MaxAPI.lib not found in Max SDK")
@@ -328,6 +357,7 @@ function(create_onnx_external TARGET_NAME SOURCE_FILE)
         configure_file(${CMAKE_SOURCE_DIR}/cmake/Info.plist.in
             ${CMAKE_BINARY_DIR}/${TARGET_NAME}.${EXTERNAL_EXTENSION}/Contents/Info.plist @ONLY)
     endif()
+    setup_codesigning(${TARGET_NAME})
     setup_external_deployment(${TARGET_NAME})
 endfunction()
 
@@ -336,25 +366,31 @@ function(setup_qdts_resources)
     set(ONNX_SRC_DIR "${CMAKE_SOURCE_DIR}/../experiments/qdts_solver_nn/onnx_exports")
     set(ONNX_DEST_DIR "${MAX_RESOURCES_DIR}/qdts_solver_nn")
 
-    add_custom_target(CopyQDTSResources ALL)
+    # Not in ALL — run explicitly with --target CopyQDTSResources (or --target qdts_all)
+    # after granting Terminal / CLion Full Disk Access in System Settings.
+    add_custom_target(CopyQDTSResources)
 
-    add_custom_command(TARGET CopyQDTSResources POST_BUILD
+    # make_directory and all copies in one command so the directory exists before any copy
+    set(_COPY_CMDS
         COMMAND ${CMAKE_COMMAND} -E make_directory "${ONNX_DEST_DIR}"
-        COMMENT "Created resources/qdts_solver_nn"
     )
 
     foreach(N RANGE 5 16)
         set(ONNX_FILE "${ONNX_SRC_DIR}/qdts_solver_N${N}.onnx")
         if(EXISTS "${ONNX_FILE}")
-            add_custom_command(TARGET CopyQDTSResources POST_BUILD
+            list(APPEND _COPY_CMDS
                 COMMAND ${CMAKE_COMMAND} -E copy_if_different
                     "${ONNX_FILE}" "${ONNX_DEST_DIR}/qdts_solver_N${N}.onnx"
-                COMMENT "Copied qdts_solver_N${N}.onnx"
             )
         else()
             message(WARNING "ONNX model not found: ${ONNX_FILE} — run onnx_wrapper.py first")
         endif()
     endforeach()
+
+    add_custom_command(TARGET CopyQDTSResources POST_BUILD
+        ${_COPY_CMDS}
+        COMMENT "Copying QDTS ONNX models to ${ONNX_DEST_DIR}"
+    )
 endfunction()
 
 # ── Externals ──────────────────────────────────────────────────────────────────
@@ -362,11 +398,19 @@ create_simple_external(qdts.solver    source/qdts.solver/roots.solver.cpp)
 create_onnx_external(qdts.solver_nn   source/qdts.solver_nn/qdts.solver_nn.cpp)
 
 # ── Model resources ────────────────────────────────────────────────────────────
+# CopyQDTSResources is NOT a dependency of the compile targets so a missing
+# Max installation or TCC permissions issue doesn't block compilation.
+# Run it explicitly once Max is installed:
+#   cmake --build build --target CopyQDTSResources
+#   cmake --build build --target qdts_all   (builds + deploys everything)
 setup_qdts_resources()
-add_dependencies(qdts.solver_nn CopyQDTSResources)
 
-# ── Group target ───────────────────────────────────────────────────────────────
-add_custom_target(qdts_all DEPENDS qdts.solver qdts.solver_nn CopyQDTSResources)
+# ── Group targets ──────────────────────────────────────────────────────────────
+# qdts_all: compile + codesign both externals + deploy everything to Max Packages
+add_custom_target(qdts_all
+    DEPENDS qdts.solver qdts.solver_nn
+            deploy_qdts.solver deploy_qdts.solver_nn
+            CopyQDTSResources)
 
 # ── Build summary ──────────────────────────────────────────────────────────────
 message(STATUS "")
@@ -377,14 +421,21 @@ message(STATUS "  Externals  : ${MAX_EXTERNALS_DIR}")
 message(STATUS "  Resources  : ${MAX_RESOURCES_DIR}/qdts_solver_nn/")
 message(STATUS "  ONNX lib   : ${ONNX_LIB}")
 message(STATUS "")
-message(STATUS "  Targets:")
-message(STATUS "    qdts.solver      — Newton-Raphson numerical solver")
-message(STATUS "    qdts.solver_nn   — Neural network solver (ONNX)")
-message(STATUS "    qdts_all         — Build both + copy resources")
+message(STATUS "  Compile targets (no Max install needed):")
+message(STATUS "    qdts.solver             — Newton-Raphson solver")
+message(STATUS "    qdts.solver_nn          — Neural network solver (ONNX)")
+message(STATUS "")
+message(STATUS "  Deploy targets (require Full Disk Access on macOS):")
+message(STATUS "    deploy_qdts.solver      — Copy solver external to Max Packages")
+message(STATUS "    deploy_qdts.solver_nn   — Copy NN external to Max Packages")
+message(STATUS "    CopyQDTSResources       — Copy ONNX models to Max Packages")
+message(STATUS "    qdts_all                — Compile + codesign + deploy everything")
 message(STATUS "─────────────────────────────────────────────────────────────")
 message(STATUS "")
 if(PLATFORM_MACOS)
     message(STATUS "  Intel build: cmake -DCMAKE_OSX_ARCHITECTURES=x86_64 .")
     message(STATUS "  Codesign:   cmake -DCODESIGN_IDENTITY=\"Developer ID...\" .")
     message(STATUS "  No signing: cmake -DENABLE_CODESIGNING=OFF .")
+    message(STATUS "  Full Disk Access: System Settings → Privacy & Security")
+    message(STATUS "                    → Full Disk Access → add Terminal / CLion")
 endif()

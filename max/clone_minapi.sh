@@ -23,8 +23,8 @@ MAX_SDK_DIR="${LIB_DIR}/max-sdk"
 if [ -d "${MAX_SDK_DIR}/.git" ]; then
     echo "max-sdk already present at ${MAX_SDK_DIR}"
 else
-    echo "Cloning max-sdk ..."
-    git clone https://github.com/Cycling74/max-sdk.git "${MAX_SDK_DIR}"
+    echo "Cloning max-sdk (with submodules) ..."
+    git clone --recurse-submodules https://github.com/Cycling74/max-sdk.git "${MAX_SDK_DIR}"
     echo "max-sdk cloned."
 fi
 
