@@ -51,7 +51,7 @@ This clones into `max/lib/min-api` (includes Eigen as a submodule) and `max/lib/
 
 ## Step 3 — Configure with CMake
 
-Create a build directory and run CMake from inside it.
+This generates the build files. **Run once** (or again if you change CMake flags).
 
 #### macOS — Apple Silicon (arm64, default)
 ```bash
@@ -78,18 +78,25 @@ cmake -S . -B build -DCODESIGN_IDENTITY="Developer ID Application: Your Name (TE
 cmake -S . -B build -G "Visual Studio 17 2022" -A x64
 ```
 
-**What CMake does automatically:**
+**What CMake does automatically during configure:**
 - Fetches Min-API via CPM (internet required on first run)
 - Runs `clone_minapi.sh/bat` if `lib/max-sdk` is missing
 - Unpacks the correct ONNX Runtime archive (`.zip` or `.tar.bz2`) into `build/external/onnxruntime_prebuilt/`
 
 ---
 
-## Step 4 — Build
+## Step 4 — Build (compile)
+
+This is the step that actually compiles the code. **Re-run this every time you change source files.**
 
 **macOS**
 ```bash
 cmake --build build --config Release
+```
+
+Speed it up with parallel jobs:
+```bash
+cmake --build build --config Release -- -j$(sysctl -n hw.logicalcpu)
 ```
 
 Build a specific target:
@@ -102,6 +109,17 @@ cmake --build build --config Release --target qdts_all         # both + copy mod
 **Windows**
 ```bat
 cmake --build build --config Release
+```
+
+Speed it up with parallel jobs:
+```bat
+cmake --build build --config Release -- /maxcpucount
+```
+
+**Other useful build options:**
+```bash
+cmake --build build --config Debug          # debug build (symbols, no optimisation)
+cmake --build build --config Release --clean-first  # clean then rebuild
 ```
 
 ---
