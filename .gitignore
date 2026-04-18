@@ -1,0 +1,27 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+.env
+
+# CMake build directories
+max/build*/
+max/_build/
+
+# Compiled binaries (benchmark executable)
+experiments/qdts_solver_nn/benchmark_onnx
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
