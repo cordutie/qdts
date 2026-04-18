@@ -171,3 +171,7 @@ xattr -rd com.apple.quarantine ~/Documents/Max\ 9/Packages/qdts/
 ```
 
 **Windows: "onnxruntime.lib not found"** — The `.tar.bz2` extraction requires 7-Zip, WinRAR, or Git for Windows (`tar` + `bzip2`). Install one of them and re-run CMake.
+
+
+----
+
