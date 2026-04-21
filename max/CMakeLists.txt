@@ -394,8 +394,9 @@ function(setup_qdts_resources)
 endfunction()
 
 # ── Externals ──────────────────────────────────────────────────────────────────
-create_simple_external(qdts.solver    source/qdts.solver/roots.solver.cpp)
-create_onnx_external(qdts.solver_nn   source/qdts.solver_nn/qdts.solver_nn.cpp)
+create_simple_external(qdts.solver          source/qdts.solver/roots.solver.cpp)
+create_onnx_external(qdts.solver_nn         source/qdts.solver_nn/qdts.solver_nn.cpp)
+create_simple_external(qdts.spectrum_view   source/qdts.spectrum_view/qdts.spectrum_view.cpp)
 
 # ── Model resources ────────────────────────────────────────────────────────────
 # CopyQDTSResources is NOT a dependency of the compile targets so a missing
@@ -408,8 +409,8 @@ setup_qdts_resources()
 # ── Group targets ──────────────────────────────────────────────────────────────
 # qdts_all: compile + codesign both externals + deploy everything to Max Packages
 add_custom_target(qdts_all
-    DEPENDS qdts.solver qdts.solver_nn
-            deploy_qdts.solver deploy_qdts.solver_nn
+    DEPENDS qdts.solver qdts.solver_nn qdts.spectrum_view
+            deploy_qdts.solver deploy_qdts.solver_nn deploy_qdts.spectrum_view
             CopyQDTSResources)
 
 # ── Build summary ──────────────────────────────────────────────────────────────
@@ -424,10 +425,12 @@ message(STATUS "")
 message(STATUS "  Compile targets (no Max install needed):")
 message(STATUS "    qdts.solver             — Newton-Raphson solver")
 message(STATUS "    qdts.solver_nn          — Neural network solver (ONNX)")
+message(STATUS "    qdts.spectrum_view      — Spectrum visualizer UI")
 message(STATUS "")
 message(STATUS "  Deploy targets (require Full Disk Access on macOS):")
 message(STATUS "    deploy_qdts.solver      — Copy solver external to Max Packages")
 message(STATUS "    deploy_qdts.solver_nn   — Copy NN external to Max Packages")
+message(STATUS "    deploy_qdts.spectrum_view — Copy visualizer to Max Packages")
 message(STATUS "    CopyQDTSResources       — Copy ONNX models to Max Packages")
 message(STATUS "    qdts_all                — Compile + codesign + deploy everything")
 message(STATUS "─────────────────────────────────────────────────────────────")
