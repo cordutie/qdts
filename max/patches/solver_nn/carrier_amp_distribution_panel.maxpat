@@ -201,7 +201,19 @@
 					"presentation" : 1,
 					"presentation_rect" : [ 464.0, 2.0, 27.0, 98.0 ],
 					"saved_attribute_attributes" : 					{
+						"slidercolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
 						"textcolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
+						"tricolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
+						"trioncolor" : 						{
 							"expression" : "themecolor.live_lcd_title"
 						}
 ,
@@ -220,7 +232,10 @@
 
 					}
 ,
+					"slidercolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
 					"textcolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
+					"tricolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
+					"trioncolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
 					"varname" : "p17"
 				}
 
@@ -236,9 +251,21 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 769.0, 90.0, 27.0, 95.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 435.0625, 2.0, 27.0, 98.0 ],
+					"presentation_rect" : [ 437.999999999999943, 2.0, 27.0, 98.0 ],
 					"saved_attribute_attributes" : 					{
+						"slidercolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
 						"textcolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
+						"tricolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
+						"trioncolor" : 						{
 							"expression" : "themecolor.live_lcd_title"
 						}
 ,
@@ -257,7 +284,10 @@
 
 					}
 ,
+					"slidercolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
 					"textcolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
+					"tricolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
+					"trioncolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
 					"varname" : "p16"
 				}
 
@@ -273,9 +303,21 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 740.0, 90.0, 27.0, 95.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 406.125, 2.0, 27.0, 98.0 ],
+					"presentation_rect" : [ 408.866666666666617, 2.0, 27.0, 98.0 ],
 					"saved_attribute_attributes" : 					{
+						"slidercolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
 						"textcolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
+						"tricolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
+						"trioncolor" : 						{
 							"expression" : "themecolor.live_lcd_title"
 						}
 ,
@@ -294,7 +336,10 @@
 
 					}
 ,
+					"slidercolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
 					"textcolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
+					"tricolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
+					"trioncolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
 					"varname" : "p15"
 				}
 
@@ -310,9 +355,21 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 711.0, 90.0, 27.0, 95.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 377.1875, 2.0, 27.0, 98.0 ],
+					"presentation_rect" : [ 379.733333333333292, 2.0, 27.0, 98.0 ],
 					"saved_attribute_attributes" : 					{
+						"slidercolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
 						"textcolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
+						"tricolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
+						"trioncolor" : 						{
 							"expression" : "themecolor.live_lcd_title"
 						}
 ,
@@ -331,7 +388,10 @@
 
 					}
 ,
+					"slidercolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
 					"textcolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
+					"tricolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
+					"trioncolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
 					"varname" : "p14"
 				}
 
@@ -347,9 +407,21 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 682.0, 90.0, 27.0, 95.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 348.25, 2.0, 27.0, 98.0 ],
+					"presentation_rect" : [ 350.599999999999966, 2.0, 27.0, 98.0 ],
 					"saved_attribute_attributes" : 					{
+						"slidercolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
 						"textcolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
+						"tricolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
+						"trioncolor" : 						{
 							"expression" : "themecolor.live_lcd_title"
 						}
 ,
@@ -368,7 +440,10 @@
 
 					}
 ,
+					"slidercolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
 					"textcolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
+					"tricolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
+					"trioncolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
 					"varname" : "p13"
 				}
 
@@ -384,9 +459,21 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 653.0, 90.0, 27.0, 95.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 319.3125, 2.0, 27.0, 98.0 ],
+					"presentation_rect" : [ 321.46666666666664, 2.0, 27.0, 98.0 ],
 					"saved_attribute_attributes" : 					{
+						"slidercolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
 						"textcolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
+						"tricolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
+						"trioncolor" : 						{
 							"expression" : "themecolor.live_lcd_title"
 						}
 ,
@@ -405,7 +492,10 @@
 
 					}
 ,
+					"slidercolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
 					"textcolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
+					"tricolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
+					"trioncolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
 					"varname" : "p12"
 				}
 
@@ -421,9 +511,21 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 624.0, 90.0, 27.0, 95.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 290.375, 2.0, 27.0, 98.0 ],
+					"presentation_rect" : [ 292.333333333333314, 2.0, 27.0, 98.0 ],
 					"saved_attribute_attributes" : 					{
+						"slidercolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
 						"textcolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
+						"tricolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
+						"trioncolor" : 						{
 							"expression" : "themecolor.live_lcd_title"
 						}
 ,
@@ -442,7 +544,10 @@
 
 					}
 ,
+					"slidercolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
 					"textcolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
+					"tricolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
+					"trioncolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
 					"varname" : "p11"
 				}
 
@@ -458,9 +563,21 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 595.0, 90.0, 27.0, 95.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 261.4375, 2.0, 27.0, 98.0 ],
+					"presentation_rect" : [ 263.199999999999989, 2.0, 27.0, 98.0 ],
 					"saved_attribute_attributes" : 					{
+						"slidercolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
 						"textcolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
+						"tricolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
+						"trioncolor" : 						{
 							"expression" : "themecolor.live_lcd_title"
 						}
 ,
@@ -479,7 +596,10 @@
 
 					}
 ,
+					"slidercolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
 					"textcolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
+					"tricolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
+					"trioncolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
 					"varname" : "p10"
 				}
 
@@ -495,9 +615,21 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 566.0, 90.0, 27.0, 95.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 232.5, 2.0, 27.0, 98.0 ],
+					"presentation_rect" : [ 234.066666666666634, 2.0, 27.0, 98.0 ],
 					"saved_attribute_attributes" : 					{
+						"slidercolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
 						"textcolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
+						"tricolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
+						"trioncolor" : 						{
 							"expression" : "themecolor.live_lcd_title"
 						}
 ,
@@ -516,7 +648,10 @@
 
 					}
 ,
+					"slidercolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
 					"textcolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
+					"tricolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
+					"trioncolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
 					"varname" : "p9"
 				}
 
@@ -532,9 +667,21 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 537.0, 90.0, 27.0, 95.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 203.5625, 2.0, 27.0, 98.0 ],
+					"presentation_rect" : [ 204.933333333333309, 2.0, 27.0, 98.0 ],
 					"saved_attribute_attributes" : 					{
+						"slidercolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
 						"textcolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
+						"tricolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
+						"trioncolor" : 						{
 							"expression" : "themecolor.live_lcd_title"
 						}
 ,
@@ -553,7 +700,10 @@
 
 					}
 ,
+					"slidercolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
 					"textcolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
+					"tricolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
+					"trioncolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
 					"varname" : "p8"
 				}
 
@@ -569,9 +719,21 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 508.0, 90.0, 27.0, 95.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 174.625, 2.0, 27.0, 98.0 ],
+					"presentation_rect" : [ 175.799999999999983, 2.0, 27.0, 98.0 ],
 					"saved_attribute_attributes" : 					{
+						"slidercolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
 						"textcolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
+						"tricolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
+						"trioncolor" : 						{
 							"expression" : "themecolor.live_lcd_title"
 						}
 ,
@@ -590,7 +752,10 @@
 
 					}
 ,
+					"slidercolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
 					"textcolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
+					"tricolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
+					"trioncolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
 					"varname" : "p7"
 				}
 
@@ -606,9 +771,21 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 479.0, 90.0, 27.0, 95.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 145.6875, 2.0, 27.0, 98.0 ],
+					"presentation_rect" : [ 146.666666666666657, 2.0, 27.0, 98.0 ],
 					"saved_attribute_attributes" : 					{
+						"slidercolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
 						"textcolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
+						"tricolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
+						"trioncolor" : 						{
 							"expression" : "themecolor.live_lcd_title"
 						}
 ,
@@ -627,7 +804,10 @@
 
 					}
 ,
+					"slidercolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
 					"textcolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
+					"tricolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
+					"trioncolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
 					"varname" : "p6"
 				}
 
@@ -643,9 +823,21 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 450.0, 90.0, 27.0, 95.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 116.75, 2.0, 27.0, 98.0 ],
+					"presentation_rect" : [ 117.533333333333331, 2.0, 27.0, 98.0 ],
 					"saved_attribute_attributes" : 					{
+						"slidercolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
 						"textcolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
+						"tricolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
+						"trioncolor" : 						{
 							"expression" : "themecolor.live_lcd_title"
 						}
 ,
@@ -664,7 +856,10 @@
 
 					}
 ,
+					"slidercolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
 					"textcolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
+					"tricolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
+					"trioncolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
 					"varname" : "p5"
 				}
 
@@ -680,9 +875,21 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 421.0, 90.0, 27.0, 95.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 87.8125, 2.0, 27.0, 98.0 ],
+					"presentation_rect" : [ 88.400000000000006, 2.0, 27.0, 98.0 ],
 					"saved_attribute_attributes" : 					{
+						"slidercolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
 						"textcolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
+						"tricolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
+						"trioncolor" : 						{
 							"expression" : "themecolor.live_lcd_title"
 						}
 ,
@@ -701,7 +908,10 @@
 
 					}
 ,
+					"slidercolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
 					"textcolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
+					"tricolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
+					"trioncolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
 					"varname" : "p4"
 				}
 
@@ -717,9 +927,21 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 392.0, 90.0, 27.0, 95.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 58.875, 2.0, 27.0, 98.0 ],
+					"presentation_rect" : [ 59.266666666666666, 2.0, 27.0, 98.0 ],
 					"saved_attribute_attributes" : 					{
+						"slidercolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
 						"textcolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
+						"tricolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
+						"trioncolor" : 						{
 							"expression" : "themecolor.live_lcd_title"
 						}
 ,
@@ -738,7 +960,10 @@
 
 					}
 ,
+					"slidercolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
 					"textcolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
+					"tricolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
+					"trioncolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
 					"varname" : "p3"
 				}
 
@@ -754,9 +979,21 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 363.0, 90.0, 27.0, 95.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 29.9375, 2.0, 27.0, 98.0 ],
+					"presentation_rect" : [ 30.133333333333333, 2.0, 27.0, 98.0 ],
 					"saved_attribute_attributes" : 					{
+						"slidercolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
 						"textcolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
+						"tricolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
+						"trioncolor" : 						{
 							"expression" : "themecolor.live_lcd_title"
 						}
 ,
@@ -775,7 +1012,10 @@
 
 					}
 ,
+					"slidercolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
 					"textcolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
+					"tricolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
+					"trioncolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
 					"varname" : "p2"
 				}
 
@@ -793,7 +1033,19 @@
 					"presentation" : 1,
 					"presentation_rect" : [ 1.0, 2.0, 27.0, 98.0 ],
 					"saved_attribute_attributes" : 					{
+						"slidercolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
 						"textcolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
+						"tricolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
+						"trioncolor" : 						{
 							"expression" : "themecolor.live_lcd_title"
 						}
 ,
@@ -812,7 +1064,10 @@
 
 					}
 ,
+					"slidercolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
 					"textcolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
+					"tricolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
+					"trioncolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
 					"varname" : "p1"
 				}
 

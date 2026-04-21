@@ -15,6 +15,183 @@
 		"gridsize" : [ 15.0, 15.0 ],
 		"boxes" : [ 			{
 				"box" : 				{
+					"id" : "obj-99",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 769.0, 415.0, 100.0, 22.0 ]
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-97",
+					"maxclass" : "newobj",
+					"numinlets" : 0,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 837.0, 505.0, 86.0, 22.0 ],
+					"text" : "r ---target_freq"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-92",
+					"maxclass" : "newobj",
+					"numinlets" : 2,
+					"numoutlets" : 1,
+					"outlettype" : [ "float" ],
+					"patching_rect" : [ 795.0, 547.0, 29.5, 22.0 ],
+					"text" : "* 1."
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-91",
+					"maxclass" : "button",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "bang" ],
+					"parameter_enable" : 0,
+					"patching_rect" : [ 706.0, 453.0, 24.0, 24.0 ]
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-87",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 728.0, 603.0, 200.0, 22.0 ],
+					"text" : "sprintf script send h1_hz set %.0fHz"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-86",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 2,
+					"outlettype" : [ "bang", "float" ],
+					"patching_rect" : [ 527.0, 496.0, 29.5, 22.0 ],
+					"text" : "t b f"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-36",
+					"maxclass" : "newobj",
+					"numinlets" : 2,
+					"numoutlets" : 3,
+					"outlettype" : [ "bang", "bang", "int" ],
+					"patching_rect" : [ 706.0, 501.0, 41.0, 22.0 ],
+					"text" : "uzi 16"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-35",
+					"maxclass" : "newobj",
+					"numinlets" : 0,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 527.0, 459.523816645145416, 86.0, 22.0 ],
+					"text" : "r ---target_freq"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-33",
+					"maxclass" : "live.comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 665.0, 304.0, 65.0, 18.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 6.0, 121.0, 39.0, 18.0 ],
+					"saved_attribute_attributes" : 					{
+						"textcolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+
+					}
+,
+					"text" : "472Hz",
+					"textcolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
+					"textjustification" : 1,
+					"varname" : "h1_hz"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-25",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 593.0, 187.0, 88.0, 22.0 ],
+					"text" : "s ---target_freq"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-24",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 527.0, 603.0, 190.0, 22.0 ],
+					"text" : "sprintf script send f_hz set %.0fHz"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-12",
+					"maxclass" : "live.comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 592.0, 304.0, 65.0, 18.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 1.5, 101.0, 48.0, 18.0 ],
+					"saved_attribute_attributes" : 					{
+						"textcolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+
+					}
+,
+					"text" : "546Hz",
+					"textcolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
+					"textjustification" : 1,
+					"varname" : "f_hz"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"comment" : "",
+					"id" : "obj-9",
+					"index" : 0,
+					"maxclass" : "inlet",
+					"numinlets" : 0,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 592.909999999999968, 145.050000000000011, 30.0, 30.0 ]
+				}
+
+			}
+, 			{
+				"box" : 				{
 					"comment" : "",
 					"id" : "obj-10",
 					"index" : 0,
@@ -239,10 +416,18 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 499.206356942653656, 241.269845008850098, 27.0, 95.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 437.999999999999943, 1.0, 27.0, 98.0 ],
+					"presentation_rect" : [ 449.0, 1.0, 27.0, 98.0 ],
 					"saved_attribute_attributes" : 					{
+						"slidercolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
 						"textcolor" : 						{
 							"expression" : "themecolor.live_lcd_title"
+						}
+,
+						"trioncolor" : 						{
+							"expression" : "themecolor.live_dial_needle_zombie"
 						}
 ,
 						"valueof" : 						{
@@ -259,7 +444,10 @@
 
 					}
 ,
+					"shownumber" : 0,
+					"slidercolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
 					"textcolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
+					"trioncolor" : [ 0.411764705882353, 0.411764705882353, 0.411764705882353, 1.0 ],
 					"varname" : "h15"
 				}
 
@@ -275,10 +463,18 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 469.841277122497559, 241.269845008850098, 27.0, 95.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 408.866666666666617, 1.0, 27.0, 98.0 ],
+					"presentation_rect" : [ 420.0, 1.0, 27.0, 98.0 ],
 					"saved_attribute_attributes" : 					{
+						"slidercolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
 						"textcolor" : 						{
 							"expression" : "themecolor.live_lcd_title"
+						}
+,
+						"trioncolor" : 						{
+							"expression" : "themecolor.live_dial_needle_zombie"
 						}
 ,
 						"valueof" : 						{
@@ -295,7 +491,10 @@
 
 					}
 ,
+					"shownumber" : 0,
+					"slidercolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
 					"textcolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
+					"trioncolor" : [ 0.411764705882353, 0.411764705882353, 0.411764705882353, 1.0 ],
 					"varname" : "h14"
 				}
 
@@ -311,10 +510,18 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 440.476197302341461, 241.269845008850098, 27.0, 95.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 379.733333333333292, 1.0, 27.0, 98.0 ],
+					"presentation_rect" : [ 390.0, 1.0, 27.0, 98.0 ],
 					"saved_attribute_attributes" : 					{
+						"slidercolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
 						"textcolor" : 						{
 							"expression" : "themecolor.live_lcd_title"
+						}
+,
+						"trioncolor" : 						{
+							"expression" : "themecolor.live_dial_needle_zombie"
 						}
 ,
 						"valueof" : 						{
@@ -331,7 +538,10 @@
 
 					}
 ,
+					"shownumber" : 0,
+					"slidercolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
 					"textcolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
+					"trioncolor" : [ 0.411764705882353, 0.411764705882353, 0.411764705882353, 1.0 ],
 					"varname" : "h13"
 				}
 
@@ -347,10 +557,18 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 411.904768288135529, 241.269845008850098, 27.0, 95.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 350.599999999999966, 1.0, 27.0, 98.0 ],
+					"presentation_rect" : [ 361.0, 1.0, 27.0, 98.0 ],
 					"saved_attribute_attributes" : 					{
+						"slidercolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
 						"textcolor" : 						{
 							"expression" : "themecolor.live_lcd_title"
+						}
+,
+						"trioncolor" : 						{
+							"expression" : "themecolor.live_dial_needle_zombie"
 						}
 ,
 						"valueof" : 						{
@@ -367,7 +585,10 @@
 
 					}
 ,
+					"shownumber" : 0,
+					"slidercolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
 					"textcolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
+					"trioncolor" : [ 0.411764705882353, 0.411764705882353, 0.411764705882353, 1.0 ],
 					"varname" : "h12"
 				}
 
@@ -383,10 +604,18 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 382.539688467979431, 241.269845008850098, 27.0, 95.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 321.46666666666664, 1.0, 27.0, 98.0 ],
+					"presentation_rect" : [ 332.0, 1.0, 27.0, 98.0 ],
 					"saved_attribute_attributes" : 					{
+						"slidercolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
 						"textcolor" : 						{
 							"expression" : "themecolor.live_lcd_title"
+						}
+,
+						"trioncolor" : 						{
+							"expression" : "themecolor.live_dial_needle_zombie"
 						}
 ,
 						"valueof" : 						{
@@ -403,7 +632,10 @@
 
 					}
 ,
+					"shownumber" : 0,
+					"slidercolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
 					"textcolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
+					"trioncolor" : [ 0.411764705882353, 0.411764705882353, 0.411764705882353, 1.0 ],
 					"varname" : "h11"
 				}
 
@@ -419,10 +651,18 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 353.968259453773499, 241.269845008850098, 27.0, 95.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 292.333333333333314, 1.0, 27.0, 98.0 ],
+					"presentation_rect" : [ 303.0, 1.0, 27.0, 98.0 ],
 					"saved_attribute_attributes" : 					{
+						"slidercolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
 						"textcolor" : 						{
 							"expression" : "themecolor.live_lcd_title"
+						}
+,
+						"trioncolor" : 						{
+							"expression" : "themecolor.live_dial_needle_zombie"
 						}
 ,
 						"valueof" : 						{
@@ -439,7 +679,10 @@
 
 					}
 ,
+					"shownumber" : 0,
+					"slidercolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
 					"textcolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
+					"trioncolor" : [ 0.411764705882353, 0.411764705882353, 0.411764705882353, 1.0 ],
 					"varname" : "h10"
 				}
 
@@ -455,10 +698,18 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 324.603179633617401, 241.269845008850098, 27.0, 95.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 263.199999999999989, 1.0, 27.0, 98.0 ],
+					"presentation_rect" : [ 274.0, 1.0, 27.0, 98.0 ],
 					"saved_attribute_attributes" : 					{
+						"slidercolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
 						"textcolor" : 						{
 							"expression" : "themecolor.live_lcd_title"
+						}
+,
+						"trioncolor" : 						{
+							"expression" : "themecolor.live_dial_needle_zombie"
 						}
 ,
 						"valueof" : 						{
@@ -475,7 +726,10 @@
 
 					}
 ,
+					"shownumber" : 0,
+					"slidercolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
 					"textcolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
+					"trioncolor" : [ 0.411764705882353, 0.411764705882353, 0.411764705882353, 1.0 ],
 					"varname" : "h9"
 				}
 
@@ -491,10 +745,18 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 296.031750619411469, 241.269845008850098, 27.0, 95.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 234.066666666666634, 1.0, 27.0, 98.0 ],
+					"presentation_rect" : [ 245.0, 1.0, 27.0, 98.0 ],
 					"saved_attribute_attributes" : 					{
+						"slidercolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
 						"textcolor" : 						{
 							"expression" : "themecolor.live_lcd_title"
+						}
+,
+						"trioncolor" : 						{
+							"expression" : "themecolor.live_dial_needle_zombie"
 						}
 ,
 						"valueof" : 						{
@@ -511,7 +773,10 @@
 
 					}
 ,
+					"shownumber" : 0,
+					"slidercolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
 					"textcolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
+					"trioncolor" : [ 0.411764705882353, 0.411764705882353, 0.411764705882353, 1.0 ],
 					"varname" : "h8"
 				}
 
@@ -527,10 +792,18 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 266.666670799255371, 241.269845008850098, 27.0, 95.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 204.933333333333309, 1.0, 27.0, 98.0 ],
+					"presentation_rect" : [ 216.0, 1.0, 27.0, 98.0 ],
 					"saved_attribute_attributes" : 					{
+						"slidercolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
 						"textcolor" : 						{
 							"expression" : "themecolor.live_lcd_title"
+						}
+,
+						"trioncolor" : 						{
+							"expression" : "themecolor.live_dial_needle_zombie"
 						}
 ,
 						"valueof" : 						{
@@ -547,7 +820,10 @@
 
 					}
 ,
+					"shownumber" : 0,
+					"slidercolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
 					"textcolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
+					"trioncolor" : [ 0.411764705882353, 0.411764705882353, 0.411764705882353, 1.0 ],
 					"varname" : "h7"
 				}
 
@@ -563,10 +839,18 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 238.095241785049438, 241.269845008850098, 27.0, 95.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 175.799999999999983, 1.0, 27.0, 98.0 ],
+					"presentation_rect" : [ 187.0, 1.0, 27.0, 98.0 ],
 					"saved_attribute_attributes" : 					{
+						"slidercolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
 						"textcolor" : 						{
 							"expression" : "themecolor.live_lcd_title"
+						}
+,
+						"trioncolor" : 						{
+							"expression" : "themecolor.live_dial_needle_zombie"
 						}
 ,
 						"valueof" : 						{
@@ -583,7 +867,10 @@
 
 					}
 ,
+					"shownumber" : 0,
+					"slidercolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
 					"textcolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
+					"trioncolor" : [ 0.411764705882353, 0.411764705882353, 0.411764705882353, 1.0 ],
 					"varname" : "h6"
 				}
 
@@ -599,10 +886,18 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 208.730161964893341, 241.269845008850098, 27.0, 95.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 146.666666666666657, 1.0, 27.0, 98.0 ],
+					"presentation_rect" : [ 157.0, 1.0, 27.0, 98.0 ],
 					"saved_attribute_attributes" : 					{
+						"slidercolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
 						"textcolor" : 						{
 							"expression" : "themecolor.live_lcd_title"
+						}
+,
+						"trioncolor" : 						{
+							"expression" : "themecolor.live_dial_needle_zombie"
 						}
 ,
 						"valueof" : 						{
@@ -619,7 +914,10 @@
 
 					}
 ,
+					"shownumber" : 0,
+					"slidercolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
 					"textcolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
+					"trioncolor" : [ 0.411764705882353, 0.411764705882353, 0.411764705882353, 1.0 ],
 					"varname" : "h5"
 				}
 
@@ -634,10 +932,18 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 180.158732950687408, 241.269845008850098, 27.0, 95.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 117.533333333333331, 1.0, 27.0, 98.0 ],
+					"presentation_rect" : [ 128.0, 1.0, 27.0, 98.0 ],
 					"saved_attribute_attributes" : 					{
+						"slidercolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
 						"textcolor" : 						{
 							"expression" : "themecolor.live_lcd_title"
+						}
+,
+						"trioncolor" : 						{
+							"expression" : "themecolor.live_dial_needle_zombie"
 						}
 ,
 						"valueof" : 						{
@@ -654,7 +960,10 @@
 
 					}
 ,
+					"shownumber" : 0,
+					"slidercolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
 					"textcolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
+					"trioncolor" : [ 0.411764705882353, 0.411764705882353, 0.411764705882353, 1.0 ],
 					"varname" : "h4"
 				}
 
@@ -669,10 +978,18 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 150.793653130531311, 241.269845008850098, 27.0, 95.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 88.400000000000006, 1.0, 27.0, 98.0 ],
+					"presentation_rect" : [ 99.0, 1.0, 27.0, 98.0 ],
 					"saved_attribute_attributes" : 					{
+						"slidercolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
 						"textcolor" : 						{
 							"expression" : "themecolor.live_lcd_title"
+						}
+,
+						"trioncolor" : 						{
+							"expression" : "themecolor.live_dial_needle_zombie"
 						}
 ,
 						"valueof" : 						{
@@ -689,7 +1006,10 @@
 
 					}
 ,
+					"shownumber" : 0,
+					"slidercolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
 					"textcolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
+					"trioncolor" : [ 0.411764705882353, 0.411764705882353, 0.411764705882353, 1.0 ],
 					"varname" : "h3"
 				}
 
@@ -704,10 +1024,18 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 122.222224116325378, 241.269845008850098, 27.0, 95.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 59.266666666666666, 1.0, 27.0, 98.0 ],
+					"presentation_rect" : [ 70.0, 1.0, 27.0, 98.0 ],
 					"saved_attribute_attributes" : 					{
+						"slidercolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
 						"textcolor" : 						{
 							"expression" : "themecolor.live_lcd_title"
+						}
+,
+						"trioncolor" : 						{
+							"expression" : "themecolor.live_dial_needle_zombie"
 						}
 ,
 						"valueof" : 						{
@@ -724,7 +1052,10 @@
 
 					}
 ,
+					"shownumber" : 0,
+					"slidercolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
 					"textcolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
+					"trioncolor" : [ 0.411764705882353, 0.411764705882353, 0.411764705882353, 1.0 ],
 					"varname" : "h2"
 				}
 
@@ -739,10 +1070,18 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 92.857144296169281, 241.269845008850098, 27.0, 95.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 30.133333333333333, 1.0, 27.0, 98.0 ],
+					"presentation_rect" : [ 41.0, 1.0, 27.0, 98.0 ],
 					"saved_attribute_attributes" : 					{
+						"slidercolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
 						"textcolor" : 						{
 							"expression" : "themecolor.live_lcd_title"
+						}
+,
+						"trioncolor" : 						{
+							"expression" : "themecolor.live_dial_needle_zombie"
 						}
 ,
 						"valueof" : 						{
@@ -759,7 +1098,10 @@
 
 					}
 ,
+					"shownumber" : 0,
+					"slidercolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
 					"textcolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
+					"trioncolor" : [ 0.411764705882353, 0.411764705882353, 0.411764705882353, 1.0 ],
 					"varname" : "h1"
 				}
 
@@ -774,10 +1116,18 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 63.492064476013184, 241.269845008850098, 27.0, 95.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 1.0, 1.0, 27.0, 98.0 ],
+					"presentation_rect" : [ 12.0, 1.0, 27.0, 98.0 ],
 					"saved_attribute_attributes" : 					{
+						"slidercolor" : 						{
+							"expression" : "themecolor.live_lcd_title"
+						}
+,
 						"textcolor" : 						{
 							"expression" : "themecolor.live_lcd_title"
+						}
+,
+						"trioncolor" : 						{
+							"expression" : "themecolor.live_dial_needle_zombie"
 						}
 ,
 						"valueof" : 						{
@@ -794,7 +1144,10 @@
 
 					}
 ,
+					"shownumber" : 0,
+					"slidercolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
 					"textcolor" : [ 0.739671451839917, 0.739671266475177, 0.739671314712202, 1.0 ],
+					"trioncolor" : [ 0.411764705882353, 0.411764705882353, 0.411764705882353, 1.0 ],
 					"varname" : "f"
 				}
 
@@ -859,6 +1212,13 @@
 			}
 , 			{
 				"patchline" : 				{
+					"destination" : [ "obj-16", 0 ],
+					"source" : [ "obj-24", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
 					"destination" : [ "obj-29", 0 ],
 					"source" : [ "obj-28", 0 ]
 				}
@@ -896,6 +1256,29 @@
 				"patchline" : 				{
 					"destination" : [ "obj-28", 4 ],
 					"source" : [ "obj-34", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-86", 0 ],
+					"source" : [ "obj-35", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-87", 0 ],
+					"order" : 1,
+					"source" : [ "obj-36", 2 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-92", 0 ],
+					"order" : 0,
+					"source" : [ "obj-36", 2 ]
 				}
 
 			}
@@ -1025,6 +1408,34 @@
 			}
 , 			{
 				"patchline" : 				{
+					"destination" : [ "obj-24", 0 ],
+					"source" : [ "obj-86", 1 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-36", 0 ],
+					"source" : [ "obj-86", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-25", 0 ],
+					"source" : [ "obj-9", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-36", 0 ],
+					"source" : [ "obj-91", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
 					"destination" : [ "obj-1", 0 ],
 					"source" : [ "obj-96", 14 ]
 				}
@@ -1132,6 +1543,13 @@
 				"patchline" : 				{
 					"destination" : [ "obj-8", 0 ],
 					"source" : [ "obj-96", 15 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-92", 1 ],
+					"source" : [ "obj-97", 0 ]
 				}
 
 			}

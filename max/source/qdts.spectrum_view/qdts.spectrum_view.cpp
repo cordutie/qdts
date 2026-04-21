@@ -86,11 +86,57 @@ public:
     };
 
     attribute<double> freq_max { this, "freq_max", 13000.0,
-        description { "Maximum frequency shown on the x-axis (Hz)." },
+        description { "Maximum frequency shown on the x-axis (Hz). Used when dynamic_freq_range is off." },
+        setter { MIN_FUNCTION { redraw(); return args; } }
+    };
+
+    attribute<bool> dynamic_freq_range { this, "dynamic_freq_range", true,
+        description { "When ON, x-axis max is set to carrier + (N+2) * target for maximum visibility." },
+        setter { MIN_FUNCTION { redraw(); return args; } }
+    };
+
+    attribute<color> bgcolor { this, "bgcolor", color{0.08, 0.08, 0.11, 1.0},
+        description { "Background color." },
+        setter { MIN_FUNCTION { redraw(); return args; } }
+    };
+
+    attribute<color> textcolor { this, "textcolor", color{0.44, 0.44, 0.50, 1.0},
+        description { "Color for grid lines, axis labels, and legend text." },
+        setter { MIN_FUNCTION { redraw(); return args; } }
+    };
+
+    attribute<color> targetcolor { this, "targetcolor", color{1.0, 0.66, 0.04, 1.0},
+        description { "Color for target tones." },
+        setter { MIN_FUNCTION { redraw(); return args; } }
+    };
+
+    attribute<color> carriercolor { this, "carriercolor", color{0.09, 0.75, 1.0, 1.0},
+        description { "Color for carrier tones." },
+        setter { MIN_FUNCTION { redraw(); return args; } }
+    };
+
+    attribute<double> fontsize { this, "fontsize", 8.0,
+        description { "Font size for frequency labels and legend text." },
         setter { MIN_FUNCTION { redraw(); return args; } }
     };
 
     message<> bang_msg { this, "bang", MIN_FUNCTION {
+        redraw();
+        return {};
+    }};
+
+    // ── Mouse ─────────────────────────────────────────────────────────────────
+    message<> mousemove { this, "mousemove", MIN_FUNCTION {
+        event e { args };
+        mx_ = e.x();
+        my_ = e.y();
+        hover_active_ = true;
+        redraw();
+        return {};
+    }};
+
+    message<> mouseleave { this, "mouseleave", MIN_FUNCTION {
+        hover_active_ = false;
         redraw();
         return {};
     }};
@@ -103,22 +149,34 @@ public:
         const double H = t.height();
 
         // layout
-        const double ML = 38.0, MR = 14.0, MT = 30.0, MB = 60.0;
+        const double ML = 38.0, MR = 14.0, MT = 30.0, MB = 28.0;
         const double DW = W - ML - MR;
         const double DH = H - MT - MB;
         const double Z  = MT + DH * 0.5;   // y-pixel for amplitude = 0
 
+        // ── Resolved colors (attribute<color> → local color for jgraphics) ──
+        color c_bg      = bgcolor;
+        color c_text    = textcolor;
+        color c_target  = targetcolor;
+        color c_carrier = carriercolor;
+
         // ── Background ────────────────────────────────────────────────────────
-        jgraphics_set_source_jrgba(g, color{0.08, 0.08, 0.11, 1.0});
+        jgraphics_set_source_jrgba(g, c_bg);
         jgraphics_rectangle(g, 0, 0, W, H);
         jgraphics_fill(g);
 
         const int N  = static_cast<int>(tamps_.size());
         const int Nc = static_cast<int>(camps_.size());
 
-        // ── Frequency scale: log or linear, bounds from inspector ────────────
+        // ── Frequency scale: log or linear, bounds from inspector or dynamic ──
         const double F_MIN = std::max((double)freq_min, 1.0);
-        const double F_MAX = std::max((double)freq_max, F_MIN + 1.0);
+        const double F_MAX = [&]() -> double {
+            if (dynamic_freq_range && (N > 0 || Nc > 0)) {
+                const int n = std::max(N, Nc > 0 ? Nc - 1 : 0);
+                return std::max(cf_ + (n + 2) * tf_, F_MIN + 1.0);
+            }
+            return std::max((double)freq_max, F_MIN + 1.0);
+        }();
         const double logMin = std::log10(F_MIN);
         const double logMax = std::log10(F_MAX);
 
@@ -136,21 +194,21 @@ public:
         for (double gv : grid) {
             const double gy     = ay(gv);
             const bool   iszero = (gv == 0.0);
-            const double gc     = iszero ? 0.32 : 0.16;
-            const double gb     = iszero ? 0.40 : 0.22;
-
-            jgraphics_set_source_jrgba(g, color{gc, gc, gb, 1.0});
+            // dim the grid relative to textcolor
+            const double alpha = iszero ? 0.55 : 0.28;
+            color c_grid { c_text.red(), c_text.green(), c_text.blue(), alpha };
+            jgraphics_set_source_jrgba(g, c_grid);
             jgraphics_set_line_width(g, iszero ? 1.0 : 0.5);
             jgraphics_move_to(g, ML, gy);
             jgraphics_line_to(g, ML + DW, gy);
             jgraphics_stroke(g);
 
             // y-axis label
-            jgraphics_set_source_jrgba(g, color{0.44, 0.44, 0.50, 1.0});
+            jgraphics_set_source_jrgba(g, c_text);
             jgraphics_select_font_face(g, "Arial",
                 c74::max::JGRAPHICS_FONT_SLANT_NORMAL,
                 c74::max::JGRAPHICS_FONT_WEIGHT_NORMAL);
-            jgraphics_set_font_size(g, 9.0);
+            jgraphics_set_font_size(g, fontsize);
             jgraphics_move_to(g, 3.0, gy + 3.0);
             std::string lbl = (gv > 0) ? ("+" + std::to_string((int)gv))
                                        : std::to_string((int)gv);
@@ -162,6 +220,9 @@ public:
         constexpr double lw = 1.0;
         constexpr double dot_r = 2.0;
 
+        struct FreqLabel { double x, r, g, b; std::string text; };
+        std::vector<FreqLabel> freq_labels;
+
         // ── Target tones (amber) — at k * tf_ ────────────────────────────────
         for (int k = 0; k < N; ++k) {
             const double f = (k + 1) * tf_;
@@ -169,26 +230,21 @@ public:
             const double x = fx(f);
             const double y = ay(a);
 
-            jgraphics_set_source_jrgba(g, color{1.0, 0.66, 0.04, 0.88});
+            { color c { c_target.red(), c_target.green(), c_target.blue(), 0.88 }; jgraphics_set_source_jrgba(g, c); }
             jgraphics_set_line_width(g, lw);
             jgraphics_move_to(g, x, Z);
             jgraphics_line_to(g, x, y);
             jgraphics_stroke(g);
 
-            jgraphics_set_source_jrgba(g, color{1.0, 0.82, 0.32, 1.0});
+            jgraphics_set_source_jrgba(g, c_target);
             jgraphics_arc(g, x, y, dot_r, 0.0, M_PI * 2.0);
             jgraphics_fill(g);
 
-            // freq label — vertical, staggered rows
-            const double label_y = (H - MB + 10.0) + (k % 2) * 14.0;
-            jgraphics_set_source_jrgba(g, color{1.0, 0.66, 0.04, 0.80});
-            jgraphics_set_font_size(g, 8.0);
-            jgraphics_save(g);
-            jgraphics_translate(g, x + 3.0, label_y);
-            jgraphics_rotate(g, -M_PI / 2.0);
-            jgraphics_move_to(g, 0.0, 0.0);
-            jgraphics_show_text(g, std::to_string((int)std::round(f)).c_str());
-            jgraphics_restore(g);
+            // collect label
+            const bool near = hover_active_ && ((mx_-x)*(mx_-x)+(my_-y)*(my_-y) < 15.0*15.0);
+            if (k == 0 || near)
+                freq_labels.push_back({ x, c_target.red(), c_target.green(), c_target.blue(),
+                                        std::to_string((int)std::round(f)) });
         }
 
         // ── Carrier tones (cyan) — at cf_ + k * tf_ ──────────────────────────
@@ -198,45 +254,66 @@ public:
             const double x = fx(f);
             const double y = ay(a);
 
-            jgraphics_set_source_jrgba(g, color{0.09, 0.75, 1.0, 0.88});
+            { color c { c_carrier.red(), c_carrier.green(), c_carrier.blue(), 0.88 }; jgraphics_set_source_jrgba(g, c); }
             jgraphics_set_line_width(g, lw);
             jgraphics_move_to(g, x, Z);
             jgraphics_line_to(g, x, y);
             jgraphics_stroke(g);
 
-            jgraphics_set_source_jrgba(g, color{0.30, 0.90, 1.0, 1.0});
+            jgraphics_set_source_jrgba(g, c_carrier);
             jgraphics_arc(g, x, y, dot_r, 0.0, M_PI * 2.0);
             jgraphics_fill(g);
 
-            // freq label — vertical, staggered rows (offset below target labels)
-            const double label_y = (H - MB + 32.0) + (k % 2) * 14.0;
-            jgraphics_set_source_jrgba(g, color{0.09, 0.75, 1.0, 0.80});
-            jgraphics_set_font_size(g, 8.0);
-            jgraphics_save(g);
-            jgraphics_translate(g, x + 3.0, label_y);
-            jgraphics_rotate(g, -M_PI / 2.0);
-            jgraphics_move_to(g, 0.0, 0.0);
-            jgraphics_show_text(g, std::to_string((int)std::round(f)).c_str());
-            jgraphics_restore(g);
+            // collect label
+            const bool near = hover_active_ && ((mx_-x)*(mx_-x)+(my_-y)*(my_-y) < 15.0*15.0);
+            if (k == 0 || near)
+                freq_labels.push_back({ x, c_carrier.red(), c_carrier.green(), c_carrier.blue(),
+                                        std::to_string((int)std::round(f)) });
         }
 
-        // ── Legend ────────────────────────────────────────────────────────────
-        const double lx = ML + 8.0, ly = 8.0;
+        // ── Frequency labels — same row, bump to next row only on overlap ─────
+        std::sort(freq_labels.begin(), freq_labels.end(),
+                  [](const FreqLabel& a, const FreqLabel& b){ return a.x < b.x; });
 
-        jgraphics_set_source_jrgba(g, color{1.0, 0.66, 0.04, 0.9});
-        jgraphics_rectangle(g, lx, ly, 14.0, 4.0);
-        jgraphics_fill(g);
-        jgraphics_set_source_jrgba(g, color{0.82, 0.82, 0.82, 1.0});
-        jgraphics_set_font_size(g, 10.0);
-        jgraphics_move_to(g, lx + 18.0, ly + 5.0);
-        jgraphics_show_text(g, "target   (k x f_target,  k=1..N)");
+        const double fs       = fontsize;
+        const double base_y   = H - MB + fs + 4.0;
+        const double row_h    = fs + 1.0;
+        const double char_w   = fs * 0.62;   // approximate monospace char width
 
-        jgraphics_set_source_jrgba(g, color{0.09, 0.75, 1.0, 0.9});
-        jgraphics_rectangle(g, lx, ly + 14.0, 14.0, 4.0);
+        std::vector<double> row_right(4, -1e9);   // right edge of last label per row
+        jgraphics_set_font_size(g, fs);
+        for (auto& lbl : freq_labels) {
+            const double lbl_w = lbl.text.size() * char_w;
+            const double draw_x = lbl.x - lbl_w * 0.5;
+            int row = 0;
+            while (row < (int)row_right.size() && draw_x < row_right[row] + 4.0)
+                ++row;
+            if (row >= (int)row_right.size()) row = (int)row_right.size() - 1;
+            row_right[row] = draw_x + lbl_w;
+            color lc { lbl.r, lbl.g, lbl.b, 1.0 };
+            jgraphics_set_source_jrgba(g, lc);
+            jgraphics_move_to(g, draw_x, base_y + row * row_h);
+            jgraphics_show_text(g, lbl.text.c_str());
+        }
+
+        // ── Legend (single line) ──────────────────────────────────────────────
+        const double lx = ML + 8.0, ly = 14.0;
+        jgraphics_set_font_size(g, fontsize);
+
+        // target swatch + label
+        jgraphics_set_source_jrgba(g, c_target);
+        jgraphics_rectangle(g, lx, ly - 4.0, 10.0, 4.0);
         jgraphics_fill(g);
-        jgraphics_set_source_jrgba(g, color{0.82, 0.82, 0.82, 1.0});
-        jgraphics_move_to(g, lx + 18.0, ly + 19.0);
-        jgraphics_show_text(g, "carrier  (f_c + k x f_t,  k=0..N)");
+        jgraphics_move_to(g, lx + 14.0, ly);
+        jgraphics_show_text(g, "Target");
+
+        // carrier swatch + label
+        const double cx = lx + 110.0;
+        jgraphics_set_source_jrgba(g, c_carrier);
+        jgraphics_rectangle(g, cx, ly - 4.0, 10.0, 4.0);
+        jgraphics_fill(g);
+        jgraphics_move_to(g, cx + 14.0, ly);
+        jgraphics_show_text(g, "Carrier");
 
         return {};
     }};
@@ -246,6 +323,9 @@ private:
     double tf_;   // target frequency
     std::vector<double> tamps_;   // target amplitudes  (size N)
     std::vector<double> camps_;   // carrier amplitudes (size N+1)
+    double mx_ { 0.0 };          // last mouse x
+    double my_ { 0.0 };          // last mouse y
+    bool   hover_active_ { false };
 };
 
 MIN_EXTERNAL(spectrum_view);
