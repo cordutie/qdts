@@ -4,7 +4,7 @@
 		"appversion" : 		{
 			"major" : 9,
 			"minor" : 0,
-			"revision" : 10,
+			"revision" : 7,
 			"architecture" : "x64",
 			"modernui" : 1
 		}
@@ -236,7 +236,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 769.0, 90.0, 27.0, 95.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 435.0, 2.0, 27.0, 98.0 ],
+					"presentation_rect" : [ 435.0625, 2.0, 27.0, 98.0 ],
 					"saved_attribute_attributes" : 					{
 						"textcolor" : 						{
 							"expression" : "themecolor.live_lcd_title"
@@ -273,7 +273,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 740.0, 90.0, 27.0, 95.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 407.0, 2.0, 27.0, 98.0 ],
+					"presentation_rect" : [ 406.125, 2.0, 27.0, 98.0 ],
 					"saved_attribute_attributes" : 					{
 						"textcolor" : 						{
 							"expression" : "themecolor.live_lcd_title"
@@ -310,7 +310,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 711.0, 90.0, 27.0, 95.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 377.0, 2.0, 27.0, 98.0 ],
+					"presentation_rect" : [ 377.1875, 2.0, 27.0, 98.0 ],
 					"saved_attribute_attributes" : 					{
 						"textcolor" : 						{
 							"expression" : "themecolor.live_lcd_title"
@@ -347,7 +347,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 682.0, 90.0, 27.0, 95.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 347.0, 2.0, 27.0, 98.0 ],
+					"presentation_rect" : [ 348.25, 2.0, 27.0, 98.0 ],
 					"saved_attribute_attributes" : 					{
 						"textcolor" : 						{
 							"expression" : "themecolor.live_lcd_title"
@@ -384,7 +384,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 653.0, 90.0, 27.0, 95.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 318.0, 2.0, 27.0, 98.0 ],
+					"presentation_rect" : [ 319.3125, 2.0, 27.0, 98.0 ],
 					"saved_attribute_attributes" : 					{
 						"textcolor" : 						{
 							"expression" : "themecolor.live_lcd_title"
@@ -421,7 +421,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 624.0, 90.0, 27.0, 95.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 289.0, 2.0, 27.0, 98.0 ],
+					"presentation_rect" : [ 290.375, 2.0, 27.0, 98.0 ],
 					"saved_attribute_attributes" : 					{
 						"textcolor" : 						{
 							"expression" : "themecolor.live_lcd_title"
@@ -458,7 +458,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 595.0, 90.0, 27.0, 95.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 260.0, 2.0, 27.0, 98.0 ],
+					"presentation_rect" : [ 261.4375, 2.0, 27.0, 98.0 ],
 					"saved_attribute_attributes" : 					{
 						"textcolor" : 						{
 							"expression" : "themecolor.live_lcd_title"
@@ -495,7 +495,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 566.0, 90.0, 27.0, 95.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 234.0, 2.0, 27.0, 98.0 ],
+					"presentation_rect" : [ 232.5, 2.0, 27.0, 98.0 ],
 					"saved_attribute_attributes" : 					{
 						"textcolor" : 						{
 							"expression" : "themecolor.live_lcd_title"
@@ -532,7 +532,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 537.0, 90.0, 27.0, 95.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 205.0, 2.0, 27.0, 98.0 ],
+					"presentation_rect" : [ 203.5625, 2.0, 27.0, 98.0 ],
 					"saved_attribute_attributes" : 					{
 						"textcolor" : 						{
 							"expression" : "themecolor.live_lcd_title"
@@ -569,7 +569,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 508.0, 90.0, 27.0, 95.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 176.0, 2.0, 27.0, 98.0 ],
+					"presentation_rect" : [ 174.625, 2.0, 27.0, 98.0 ],
 					"saved_attribute_attributes" : 					{
 						"textcolor" : 						{
 							"expression" : "themecolor.live_lcd_title"
@@ -606,7 +606,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 479.0, 90.0, 27.0, 95.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 148.0, 2.0, 27.0, 98.0 ],
+					"presentation_rect" : [ 145.6875, 2.0, 27.0, 98.0 ],
 					"saved_attribute_attributes" : 					{
 						"textcolor" : 						{
 							"expression" : "themecolor.live_lcd_title"
@@ -643,7 +643,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 450.0, 90.0, 27.0, 95.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 118.0, 2.0, 27.0, 98.0 ],
+					"presentation_rect" : [ 116.75, 2.0, 27.0, 98.0 ],
 					"saved_attribute_attributes" : 					{
 						"textcolor" : 						{
 							"expression" : "themecolor.live_lcd_title"
@@ -680,7 +680,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 421.0, 90.0, 27.0, 95.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 88.0, 2.0, 27.0, 98.0 ],
+					"presentation_rect" : [ 87.8125, 2.0, 27.0, 98.0 ],
 					"saved_attribute_attributes" : 					{
 						"textcolor" : 						{
 							"expression" : "themecolor.live_lcd_title"
@@ -717,7 +717,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 392.0, 90.0, 27.0, 95.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 59.0, 2.0, 27.0, 98.0 ],
+					"presentation_rect" : [ 58.875, 2.0, 27.0, 98.0 ],
 					"saved_attribute_attributes" : 					{
 						"textcolor" : 						{
 							"expression" : "themecolor.live_lcd_title"
@@ -754,7 +754,7 @@
 					"parameter_enable" : 1,
 					"patching_rect" : [ 363.0, 90.0, 27.0, 95.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 30.0, 2.0, 27.0, 98.0 ],
+					"presentation_rect" : [ 29.9375, 2.0, 27.0, 98.0 ],
 					"saved_attribute_attributes" : 					{
 						"textcolor" : 						{
 							"expression" : "themecolor.live_lcd_title"
@@ -1040,8 +1040,7 @@
 				"0" : 				{
 					"index" : 0,
 					"name" : "",
-					"parameters" : [ "-", "-", "-", "-", "-", "-", "-", "-" ],
-					"buttons" : [ "-", "-", "-", "-", "-", "-", "-", "-" ]
+					"parameters" : [ "-", "-", "-", "-", "-", "-", "-", "-" ]
 				}
 
 			}
