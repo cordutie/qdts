@@ -120,6 +120,7 @@ public:
         setter { MIN_FUNCTION { redraw(); return args; } }
     };
 
+
     message<> bang_msg { this, "bang", MIN_FUNCTION {
         redraw();
         return {};
@@ -168,33 +169,66 @@ public:
         const int N  = static_cast<int>(tamps_.size());
         const int Nc = static_cast<int>(camps_.size());
 
-        // ── Frequency scale: log or linear, bounds from inspector or dynamic ──
-        const double F_MIN = std::max((double)freq_min, 1.0);
-        const double F_MAX = [&]() -> double {
+        // ── Live scale (used when break not active) ───────────────────────────
+        const double F_MIN_live = std::max((double)freq_min, 1.0);
+        const double F_MAX_live = [&]() -> double {
             if (dynamic_freq_range && (N > 0 || Nc > 0)) {
                 const int n = std::max(N, Nc > 0 ? Nc - 1 : 0);
-                return std::max(cf_ + (n + 2) * tf_, F_MIN + 1.0);
+                return std::max(cf_ + (n + 2) * tf_, F_MIN_live + 1.0);
             }
-            return std::max((double)freq_max, F_MIN + 1.0);
+            return std::max((double)freq_max, F_MIN_live + 1.0);
         }();
-        const double logMin = std::log10(F_MIN);
-        const double logMax = std::log10(F_MAX);
+
+        // ── Break detection ───────────────────────────────────────────────────
+        const double target_max_f  = (N  > 0) ? N  * tf_ : 0.0;
+        const double carrier_min_f = (Nc > 0) ? cf_       : 0.0;
+        const double gap_f         = carrier_min_f - target_max_f;
+        const bool should_break    = (N > 0) && (Nc > 0)
+                                  && (carrier_min_f > target_max_f)
+                                  && (gap_f > cf_ * 0.5);
+
+        if (should_break && !break_active_) {
+            // Freeze everything that determines dot x-positions
+            frozen_cf_        = cf_;
+            frozen_tf_        = tf_;
+            frozen_fmin_      = F_MIN_live;
+            frozen_fmax_      = F_MAX_live;
+            frozen_gap_mid_f_ = (target_max_f + carrier_min_f) * 0.5;
+            break_active_     = true;
+        } else if (!should_break) {
+            break_active_ = false;
+        }
+
+        const bool use_break = break_active_;
+
+        // Position params: frozen when break active, live otherwise.
+        // Labels always use live cf_/tf_ so text updates without moving dots.
+        const double pos_fmin = use_break ? frozen_fmin_ : F_MIN_live;
+        const double pos_fmax = use_break ? frozen_fmax_ : F_MAX_live;
+        const double pos_cf   = use_break ? frozen_cf_   : cf_;
+        const double pos_tf   = use_break ? frozen_tf_   : tf_;
 
         auto fx = [&](double f) {
-            f = std::max(f, F_MIN);
-            if (log_scale)
-                return ML + ((std::log10(f) - logMin) / (logMax - logMin)) * DW;
-            else
-                return ML + ((f - F_MIN) / (F_MAX - F_MIN)) * DW;
+            f = std::max(f, pos_fmin);
+            if (log_scale) {
+                const double lf  = std::log10(f);
+                const double llo = std::log10(std::max(pos_fmin, 1.0));
+                const double lhi = std::log10(std::max(pos_fmax, 2.0));
+                return ML + (lf - llo) / (lhi - llo) * DW;
+            }
+            return ML + (f - pos_fmin) / (pos_fmax - pos_fmin) * DW;
         };
-        auto ay = [&](double a) { return Z  - (a / 2.0) * (DH * 0.5); };
+        auto ay = [&](double a) { return Z - (a / 2.0) * (DH * 0.5); };
+
+        // Zigzag anchor: frozen gap midpoint frequency mapped through frozen fx()
+        const double gap_mid_x = use_break ? fx(frozen_gap_mid_f_) : 0.0;
+        constexpr double BW = 18.0;   // half-width of zigzag strip each side
 
         // ── Amplitude grid ────────────────────────────────────────────────────
         const double grid[] = { 2.0, 1.0, 0.0, -1.0, -2.0 };
         for (double gv : grid) {
-            const double gy     = ay(gv);
-            const bool   iszero = (gv == 0.0);
-            // dim the grid relative to textcolor
+            const double gy    = ay(gv);
+            const bool iszero  = (gv == 0.0);
             const double alpha = iszero ? 0.55 : 0.28;
             color c_grid { c_text.red(), c_text.green(), c_text.blue(), alpha };
             jgraphics_set_source_jrgba(g, c_grid);
@@ -215,6 +249,33 @@ public:
             jgraphics_show_text(g, lbl.c_str());
         }
 
+        // ── Axis-break zigzag (cosmetic, drawn over the zero line) ───────────
+        if (use_break) {
+            const int    teeth = 4;
+            const double amp   = 2.5;
+            const double x0    = gap_mid_x - BW;
+            const double x1    = gap_mid_x + BW;
+            const double step  = (x1 - x0) / (teeth * 2);
+
+            // blank strip over the zero line
+            jgraphics_set_source_jrgba(g, c_bg);
+            jgraphics_rectangle(g, x0, Z - amp - 1.0, x1 - x0, (amp + 1.0) * 2.0);
+            jgraphics_fill(g);
+
+            // draw squiggle
+            color c_squig { c_text.red(), c_text.green(), c_text.blue(), 0.6 };
+            jgraphics_set_source_jrgba(g, c_squig);
+            jgraphics_set_line_width(g, 1.0);
+            jgraphics_move_to(g, x0, Z);
+            for (int i = 0; i < teeth * 2; ++i) {
+                const double tx = x0 + (i + 1) * step;
+                const double ty = Z  + ((i % 2 == 0) ? -amp : amp);
+                jgraphics_line_to(g, tx, ty);
+            }
+            jgraphics_line_to(g, x1, Z);
+            jgraphics_stroke(g);
+        }
+
         if (N == 0 && Nc == 0) return {};
 
         constexpr double lw = 1.0;
@@ -223,11 +284,12 @@ public:
         struct FreqLabel { double x, r, g, b; std::string text; };
         std::vector<FreqLabel> freq_labels;
 
-        // ── Target tones (amber) — at k * tf_ ────────────────────────────────
+        // ── Target tones (amber) ─────────────────────────────────────────────
+        // x-position uses pos_tf (frozen when break active)
+        // label text uses live tf_ so it updates without moving the dot
         for (int k = 0; k < N; ++k) {
-            const double f = (k + 1) * tf_;
+            const double x = fx((k + 1) * pos_tf);   // frozen position
             const double a = tamps_[k];
-            const double x = fx(f);
             const double y = ay(a);
 
             { color c { c_target.red(), c_target.green(), c_target.blue(), 0.88 }; jgraphics_set_source_jrgba(g, c); }
@@ -240,18 +302,19 @@ public:
             jgraphics_arc(g, x, y, dot_r, 0.0, M_PI * 2.0);
             jgraphics_fill(g);
 
-            // collect label
+            const double label_f = (k + 1) * tf_;   // live frequency for label text
             const bool near = hover_active_ && ((mx_-x)*(mx_-x)+(my_-y)*(my_-y) < 15.0*15.0);
             if (k == 0 || near)
                 freq_labels.push_back({ x, c_target.red(), c_target.green(), c_target.blue(),
-                                        std::to_string((int)std::round(f)) });
+                                        std::to_string((int)std::round(label_f)) });
         }
 
-        // ── Carrier tones (cyan) — at cf_ + k * tf_ ──────────────────────────
+        // ── Carrier tones (cyan) ──────────────────────────────────────────────
+        // x-position uses pos_cf/pos_tf (frozen when break active)
+        // label text uses live cf_/tf_
         for (int k = 0; k < Nc; ++k) {
-            const double f = cf_ + k * tf_;
+            const double x = fx(pos_cf + k * pos_tf);   // frozen position
             const double a = camps_[k];
-            const double x = fx(f);
             const double y = ay(a);
 
             { color c { c_carrier.red(), c_carrier.green(), c_carrier.blue(), 0.88 }; jgraphics_set_source_jrgba(g, c); }
@@ -264,11 +327,11 @@ public:
             jgraphics_arc(g, x, y, dot_r, 0.0, M_PI * 2.0);
             jgraphics_fill(g);
 
-            // collect label
+            const double label_f = cf_ + k * tf_;   // live frequency for label text
             const bool near = hover_active_ && ((mx_-x)*(mx_-x)+(my_-y)*(my_-y) < 15.0*15.0);
             if (k == 0 || near)
                 freq_labels.push_back({ x, c_carrier.red(), c_carrier.green(), c_carrier.blue(),
-                                        std::to_string((int)std::round(f)) });
+                                        std::to_string((int)std::round(label_f)) });
         }
 
         // ── Frequency labels — same row, bump to next row only on overlap ─────
@@ -284,7 +347,7 @@ public:
         jgraphics_set_font_size(g, fs);
         for (auto& lbl : freq_labels) {
             const double lbl_w = lbl.text.size() * char_w;
-            const double draw_x = lbl.x - lbl_w * 0.5;
+            double draw_x = lbl.x - lbl_w * 0.5;
             int row = 0;
             while (row < (int)row_right.size() && draw_x < row_right[row] + 4.0)
                 ++row;
@@ -323,9 +386,15 @@ private:
     double tf_;   // target frequency
     std::vector<double> tamps_;   // target amplitudes  (size N)
     std::vector<double> camps_;   // carrier amplitudes (size N+1)
-    double mx_ { 0.0 };          // last mouse x
-    double my_ { 0.0 };          // last mouse y
+    double mx_ { 0.0 };
+    double my_ { 0.0 };
     bool   hover_active_ { false };
+    bool   break_active_     { false };
+    double frozen_cf_        { 0.0 };
+    double frozen_tf_        { 0.0 };
+    double frozen_fmin_      { 0.0 };
+    double frozen_fmax_      { 0.0 };
+    double frozen_gap_mid_f_ { 0.0 };
 };
 
 MIN_EXTERNAL(spectrum_view);
