@@ -77,22 +77,22 @@ public:
 
     attribute<bool> log_scale { this, "log_scale", true,
         description { "When ON, the x-axis uses a logarithmic frequency scale. When OFF, linear." },
-        setter { MIN_FUNCTION { redraw(); return args; } }
+        setter { MIN_FUNCTION { reset_break_state(); redraw(); return args; } }
     };
 
     attribute<double> freq_min { this, "freq_min", 20.0,
         description { "Minimum frequency shown on the x-axis (Hz)." },
-        setter { MIN_FUNCTION { redraw(); return args; } }
+        setter { MIN_FUNCTION { reset_break_state(); redraw(); return args; } }
     };
 
     attribute<double> freq_max { this, "freq_max", 13000.0,
         description { "Maximum frequency shown on the x-axis (Hz). Used when dynamic_freq_range is off." },
-        setter { MIN_FUNCTION { redraw(); return args; } }
+        setter { MIN_FUNCTION { reset_break_state(); redraw(); return args; } }
     };
 
     attribute<bool> dynamic_freq_range { this, "dynamic_freq_range", true,
         description { "When ON, x-axis max is set to carrier + (N+2) * target for maximum visibility." },
-        setter { MIN_FUNCTION { redraw(); return args; } }
+        setter { MIN_FUNCTION { reset_break_state(); redraw(); return args; } }
     };
 
     attribute<color> bgcolor { this, "bgcolor", color{0.08, 0.08, 0.11, 1.0},
@@ -112,6 +112,11 @@ public:
 
     attribute<color> carriercolor { this, "carriercolor", color{0.09, 0.75, 1.0, 1.0},
         description { "Color for carrier tones." },
+        setter { MIN_FUNCTION { redraw(); return args; } }
+    };
+
+    attribute<double> break_drift { this, "break_drift", 0.002,
+        description { "Per-frame drift rate when break is active (exponential smoothing toward live values). 0 = frozen, 1 = instant. Default 0.002." },
         setter { MIN_FUNCTION { redraw(); return args; } }
     };
 
@@ -201,8 +206,22 @@ public:
 
         const bool use_break = break_active_;
 
+        // Zigzag anchor live midpoint (needed before accumulation step below)
+        const double live_gap_mid_f = (target_max_f + carrier_min_f) * 0.5;
+
+        // When break is active, exponentially accumulate frozen values toward
+        // live at break_drift rate per redraw. This gives genuine slow drift
+        // rather than a static percentage offset that jumps with large changes.
+        if (use_break) {
+            const double dr = (double)break_drift;
+            frozen_cf_        += (cf_        - frozen_cf_)        * dr;
+            frozen_tf_        += (tf_        - frozen_tf_)        * dr;
+            frozen_fmin_      += (F_MIN_live - frozen_fmin_)      * dr;
+            frozen_fmax_      += (F_MAX_live - frozen_fmax_)      * dr;
+            frozen_gap_mid_f_ += (live_gap_mid_f - frozen_gap_mid_f_) * dr;
+        }
+
         // Position params: frozen when break active, live otherwise.
-        // Labels always use live cf_/tf_ so text updates without moving dots.
         const double pos_fmin = use_break ? frozen_fmin_ : F_MIN_live;
         const double pos_fmax = use_break ? frozen_fmax_ : F_MAX_live;
         const double pos_cf   = use_break ? frozen_cf_   : cf_;
@@ -220,8 +239,8 @@ public:
         };
         auto ay = [&](double a) { return Z - (a / 2.0) * (DH * 0.5); };
 
-        // Zigzag anchor: frozen gap midpoint frequency mapped through frozen fx()
-        const double gap_mid_x = use_break ? fx(frozen_gap_mid_f_) : 0.0;
+        const double pos_gap_mid_f = use_break ? frozen_gap_mid_f_ : live_gap_mid_f;
+        const double gap_mid_x = use_break ? fx(pos_gap_mid_f) : 0.0;
         constexpr double BW = 18.0;   // half-width of zigzag strip each side
 
         // ── Amplitude grid ────────────────────────────────────────────────────
@@ -380,6 +399,11 @@ public:
 
         return {};
     }};
+
+    // ── Helpers ───────────────────────────────────────────────────────────────
+    void reset_break_state() {
+        break_active_ = false;
+    }
 
 private:
     double cf_;   // carrier frequency
