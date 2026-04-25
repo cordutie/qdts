@@ -3,7 +3,19 @@ set -e
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 MAX_PKG="$HOME/Documents/Max 9/Packages/qdts"
-OUTPUT="$SCRIPT_DIR/qdts_release.zip"
+
+# ── Detect architecture ────────────────────────────────────────────────────────
+ARCH=$(uname -m)
+if [ "$ARCH" = "arm64" ]; then
+    OUTPUT="$SCRIPT_DIR/qdts-osx-arm64.zip"
+elif [ "$ARCH" = "x86_64" ]; then
+    OUTPUT="$SCRIPT_DIR/qdts-osx-x86_64.zip"
+else
+    echo "ERROR: Unrecognized architecture: $ARCH"
+    exit 1
+fi
+
+echo "Architecture: $ARCH → $(basename "$OUTPUT")"
 
 # ── Locate Max 9 package ───────────────────────────────────────────────────────
 if [ ! -d "$MAX_PKG" ]; then
@@ -11,7 +23,7 @@ if [ ! -d "$MAX_PKG" ]; then
     echo "  $MAX_PKG"
     echo ""
     read -r -p "Enter the path to your Max 9 qdts package folder: " CUSTOM_PATH
-    CUSTOM_PATH="${CUSTOM_PATH/#\~/$HOME}"  # expand ~ if provided
+    CUSTOM_PATH="${CUSTOM_PATH/#\~/$HOME}"
     if [ ! -d "$CUSTOM_PATH" ]; then
         echo "ERROR: Directory not found at:"
         echo "  $CUSTOM_PATH"
