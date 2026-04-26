@@ -4,7 +4,7 @@
 		"appversion" : 		{
 			"major" : 9,
 			"minor" : 0,
-			"revision" : 10,
+			"revision" : 7,
 			"architecture" : "x64",
 			"modernui" : 1
 		}
@@ -15,21 +15,35 @@
 		"gridsize" : [ 15.0, 15.0 ],
 		"boxes" : [ 			{
 				"box" : 				{
-					"code" : "// qdts_carrier_freqs.js\n// Generates the list of carrier tone frequencies:\n//   carrier, carrier+target, carrier+2*target, ..., carrier+16*target\n//\n// Message inputs\n//   carrier <float>  — carrier base frequency in Hz\n//   target  <float>  — target (difference-tone) frequency in Hz\n//\n// Outlet 1: list of 17 floats\n\noutlets = 1;\n\nvar cf = 440;\nvar tf = 110;\n\nfunction carrier(f) { cf = f; bang(); }\nfunction target(f)  { tf = f; bang(); }\n\nfunction bang() {\n    var freqs = [];\n    for (var k = 0; k <= 16; k++) {\n        freqs.push(cf + k * tf);\n    }\n    outlet(0, freqs);\n}",
-					"filename" : "none",
-					"fontface" : 0,
-					"fontname" : "<Monospaced>",
-					"fontsize" : 12.0,
-					"id" : "obj-40",
-					"maxclass" : "v8.codebox",
+					"id" : "obj-62",
+					"maxclass" : "newobj",
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ -387.0, 231.863639712333679, 339.0, 87.136360287666321 ],
+					"patching_rect" : [ 273.134318590164185, 632.0, 134.0, 22.0 ],
 					"saved_object_attributes" : 					{
+						"filename" : "synth_input_parser.js",
 						"parameter_enable" : 0
 					}
+,
+					"text" : "js synth_input_parser.js"
+				}
 
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-54",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ -387.0, 260.0, 129.0, 22.0 ],
+					"saved_object_attributes" : 					{
+						"filename" : "qdts_carrier_freqs.js",
+						"parameter_enable" : 0
+					}
+,
+					"text" : "js qdts_carrier_freqs.js"
 				}
 
 			}
@@ -77,7 +91,7 @@
 					"maxclass" : "live.comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 958.0, 120.454544305801392, 189.0, 301.0 ],
+					"patching_rect" : [ 958.0, 120.454544305801392, 191.0, 301.0 ],
 					"presentation" : 1,
 					"presentation_linecount" : 12,
 					"presentation_rect" : [ 564.0, 67.0, 355.0, 167.0 ],
@@ -274,7 +288,7 @@
 						"appversion" : 						{
 							"major" : 9,
 							"minor" : 0,
-							"revision" : 10,
+							"revision" : 7,
 							"architecture" : "x64",
 							"modernui" : 1
 						}
@@ -650,7 +664,7 @@
 						"appversion" : 						{
 							"major" : 9,
 							"minor" : 0,
-							"revision" : 10,
+							"revision" : 7,
 							"architecture" : "x64",
 							"modernui" : 1
 						}
@@ -745,26 +759,6 @@
 			}
 , 			{
 				"box" : 				{
-					"code" : "outlets = 1;\n\nfunction freqs() {\n    var args = arrayfromargs(arguments);\n    for (var i = 0; i < args.length; i++)\n        outlet(0, \"f\" + i, args[i]);\n}\nfunction amps() {\n    var args = arrayfromargs(arguments);\n    for (var i = 0; i < args.length; i++)\n        outlet(0, \"a\" + i, args[i]);\n}\nfunction phases() {\n    var args = arrayfromargs(arguments);\n    for (var i = 0; i < args.length; i++)\n        outlet(0, \"p\" + i, args[i]);\n}",
-					"filename" : "none",
-					"fontface" : 0,
-					"fontname" : "<Monospaced>",
-					"fontsize" : 12.0,
-					"id" : "obj-55",
-					"maxclass" : "v8.codebox",
-					"numinlets" : 1,
-					"numoutlets" : 1,
-					"outlettype" : [ "" ],
-					"patching_rect" : [ 273.134318590164185, 577.611919641494751, 429.03226113319397, 91.935484528541565 ],
-					"saved_object_attributes" : 					{
-						"parameter_enable" : 0
-					}
-
-				}
-
-			}
-, 			{
-				"box" : 				{
 					"id" : "obj-39",
 					"maxclass" : "newobj",
 					"numinlets" : 1,
@@ -787,7 +781,7 @@
 						"appversion" : 						{
 							"major" : 9,
 							"minor" : 0,
-							"revision" : 10,
+							"revision" : 7,
 							"architecture" : "x64",
 							"modernui" : 1
 						}
@@ -1264,13 +1258,13 @@
 , 			{
 				"box" : 				{
 					"id" : "obj-51",
-					"linecount" : 9,
+					"linecount" : 3,
 					"maxclass" : "message",
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ -563.0, 396.264698028564453, 195.0, 129.0 ],
-					"text" : "582.677165 602.677165 622.677165 642.677165 662.677165 682.677165 702.677165 722.677165 742.677165 762.677165 782.677165 802.677165 822.677165 842.677165 862.677165 882.677165 902.677165"
+					"patching_rect" : [ -563.0, 396.264698028564453, 195.0, 49.0 ],
+					"text" : "2000 2050 2100 2150 2200 2250 2300 2350 2400 2450 2500 2550 2600 2650 2700 2750 2800"
 				}
 
 			}
@@ -1422,7 +1416,7 @@
 
 					}
 ,
-					"text" : "Error=0.02",
+					"text" : "Error=0.00",
 					"textcolor" : [ 1.0, 0.725490196078431, 0.003921568627451, 1.0 ],
 					"textjustification" : 2
 				}
@@ -1965,26 +1959,9 @@
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-55", 0 ],
+					"destination" : [ "obj-62", 0 ],
 					"midpoints" : [ 300.773953676223755, 564.0, 282.634318590164185, 564.0 ],
 					"source" : [ "obj-39", 0 ]
-				}
-
-			}
-, 			{
-				"patchline" : 				{
-					"destination" : [ "obj-51", 1 ],
-					"order" : 0,
-					"source" : [ "obj-40", 0 ]
-				}
-
-			}
-, 			{
-				"patchline" : 				{
-					"destination" : [ "obj-51", 0 ],
-					"midpoints" : [ -377.5, 377.8828125, -553.5, 377.8828125 ],
-					"order" : 1,
-					"source" : [ "obj-40", 0 ]
 				}
 
 			}
@@ -2022,7 +1999,7 @@
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-40", 0 ],
+					"destination" : [ "obj-54", 0 ],
 					"midpoints" : [ -377.5, 201.0, -377.5, 201.0 ],
 					"source" : [ "obj-48", 0 ]
 				}
@@ -2030,8 +2007,8 @@
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-40", 0 ],
-					"midpoints" : [ -270.5, 201.0, -377.5, 201.0 ],
+					"destination" : [ "obj-54", 0 ],
+					"midpoints" : [ -270.5, 224.37109375, -377.5, 224.37109375 ],
 					"source" : [ "obj-49", 0 ]
 				}
 
@@ -2087,14 +2064,24 @@
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-64", 0 ],
-					"source" : [ "obj-55", 0 ]
+					"destination" : [ "obj-51", 1 ],
+					"order" : 0,
+					"source" : [ "obj-54", 0 ]
 				}
 
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-55", 0 ],
+					"destination" : [ "obj-51", 0 ],
+					"midpoints" : [ -377.5, 377.8828125, -553.5, 377.8828125 ],
+					"order" : 1,
+					"source" : [ "obj-54", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-62", 0 ],
 					"midpoints" : [ 211.5, 564.0, 282.634318590164185, 564.0 ],
 					"source" : [ "obj-56", 0 ]
 				}
@@ -2102,7 +2089,8 @@
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-55", 0 ],
+					"destination" : [ "obj-62", 0 ],
+					"midpoints" : [ 395.320881724357605, 618.0, 282.634318590164185, 618.0 ],
 					"source" : [ "obj-57", 0 ]
 				}
 
@@ -2136,6 +2124,13 @@
 				"patchline" : 				{
 					"destination" : [ "obj-64", 0 ],
 					"source" : [ "obj-60", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-64", 0 ],
+					"source" : [ "obj-62", 0 ]
 				}
 
 			}
@@ -2310,6 +2305,15 @@
 			"obj-74" : [ "resync", "resync", 0 ],
 			"obj-8" : [ "N_Harmonics", "N_Harmonics", 0 ],
 			"obj-80" : [ "Link", "Link", 0 ],
+			"parameterbanks" : 			{
+				"0" : 				{
+					"index" : 0,
+					"name" : "",
+					"parameters" : [ "-", "-", "-", "-", "-", "-", "-", "-" ]
+				}
+
+			}
+,
 			"parameter_overrides" : 			{
 				"obj-5::obj-1" : 				{
 					"parameter_longname" : "h14[1]"
@@ -2444,10 +2448,31 @@
 				"type" : "iLaX"
 			}
 , 			{
+				"name" : "qdts_carrier_freqs.js",
+				"bootpath" : "~/Github/qdts/max/patches/solver_nn",
+				"patcherrelativepath" : ".",
+				"type" : "TEXT",
+				"implicit" : 1
+			}
+, 			{
+				"name" : "synth_input_parser.js",
+				"bootpath" : "~/Github/qdts/max/patches/solver_nn",
+				"patcherrelativepath" : ".",
+				"type" : "TEXT",
+				"implicit" : 1
+			}
+, 			{
 				"name" : "target_amp_distribution_sliders_panel.maxpat",
 				"bootpath" : "~/Github/qdts/max/patches/solver_nn",
 				"patcherrelativepath" : ".",
 				"type" : "JSON",
+				"implicit" : 1
+			}
+, 			{
+				"name" : "visual_feedback_linked_sliders.js",
+				"bootpath" : "~/Github/qdts/max/patches/solver_nn",
+				"patcherrelativepath" : ".",
+				"type" : "TEXT",
 				"implicit" : 1
 			}
  ],

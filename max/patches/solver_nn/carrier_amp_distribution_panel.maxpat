@@ -4,7 +4,7 @@
 		"appversion" : 		{
 			"major" : 9,
 			"minor" : 0,
-			"revision" : 7,
+			"revision" : 10,
 			"architecture" : "x64",
 			"modernui" : 1
 		}
@@ -521,26 +521,6 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 52.0, 261.0, 133.0, 22.0 ],
 					"text" : "sprintf script hide ph%d"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"code" : "var amps = [];\n\nfunction list() {\n    amps = arrayfromargs(arguments);\n    for (var i = 0; i < amps.length; i++) {\n        var pObj = this.patcher.getnamed(\"p\" + (i + 1));\n        if (pObj) pObj.set(amps[i]);\n    }\n}",
-					"filename" : "none",
-					"fontface" : 0,
-					"fontname" : "<Monospaced>",
-					"fontsize" : 12.0,
-					"id" : "obj-28",
-					"maxclass" : "v8.codebox",
-					"numinlets" : 1,
-					"numoutlets" : 1,
-					"outlettype" : [ "" ],
-					"patching_rect" : [ 627.0, -120.0, 548.0, 177.0 ],
-					"saved_object_attributes" : 					{
-						"parameter_enable" : 0
-					}
-
 				}
 
 			}
@@ -2361,14 +2341,6 @@
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-28", 0 ],
-					"midpoints" : [ 100.5, -168.53125, 635.82421875, -168.53125, 635.82421875, -120.0, 636.5, -120.0 ],
-					"source" : [ "obj-11", 2 ]
-				}
-
-			}
-, 			{
-				"patchline" : 				{
 					"destination" : [ "obj-14", 0 ],
 					"source" : [ "obj-13", 0 ]
 				}
@@ -2711,15 +2683,6 @@
 			"obj-76" : [ "ph4", "ph4", 0 ],
 			"obj-8" : [ "p10", "p9", 0 ],
 			"obj-82" : [ "ph1", "ph1", 0 ],
-			"parameterbanks" : 			{
-				"0" : 				{
-					"index" : 0,
-					"name" : "",
-					"parameters" : [ "-", "-", "-", "-", "-", "-", "-", "-" ]
-				}
-
-			}
-,
 			"inherited_shortname" : 1
 		}
 ,

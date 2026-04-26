@@ -4,7 +4,7 @@
 		"appversion" : 		{
 			"major" : 9,
 			"minor" : 0,
-			"revision" : 7,
+			"revision" : 10,
 			"architecture" : "x64",
 			"modernui" : 1
 		}
@@ -15,6 +15,23 @@
 		"gridsize" : [ 15.0, 15.0 ],
 		"boxes" : [ 			{
 				"box" : 				{
+					"id" : "obj-47",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 884.0, 176.0, 186.0, 22.0 ],
+					"saved_object_attributes" : 					{
+						"filename" : "visual_feedback_linked_sliders.js",
+						"parameter_enable" : 0
+					}
+,
+					"text" : "js visual_feedback_linked_sliders"
+				}
+
+			}
+, 			{
+				"box" : 				{
 					"id" : "obj-43",
 					"maxclass" : "newobj",
 					"numinlets" : 0,
@@ -22,26 +39,6 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 884.0, 146.0, 75.0, 22.0 ],
 					"text" : "r ---N-sliders"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"code" : "function msg_int(n)\n{\n    var panel = this.patcher.getnamed(\"inactive_area\");\n    var h1    = this.patcher.getnamed(\"h1\");\n    var hN    = this.patcher.getnamed(\"h\" + (n-1));\n\n    if (!panel || !h1 || !hN) return;\n\n    var r1 = h1.getattr(\"presentation_rect\");\n    var rN = hN.getattr(\"presentation_rect\");\n\n\n    if (!r1 || !rN) return;\n\n    var x = r1[0];\n    var y = r1[1];\n    var width  = (rN[0] + rN[2]) - r1[0];\n    var height = (rN[1] + rN[3]) - r1[1];\n\n    panel.presentation_rect = [x, y, width, height];\n}",
-					"filename" : "none",
-					"fontface" : 0,
-					"fontname" : "<Monospaced>",
-					"fontsize" : 12.0,
-					"id" : "obj-42",
-					"maxclass" : "v8.codebox",
-					"numinlets" : 1,
-					"numoutlets" : 1,
-					"outlettype" : [ "" ],
-					"patching_rect" : [ 884.0, 180.530987977981567, 340.0, 200.0 ],
-					"saved_object_attributes" : 					{
-						"parameter_enable" : 0
-					}
-
 				}
 
 			}
@@ -1927,7 +1924,7 @@
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-42", 0 ],
+					"destination" : [ "obj-47", 0 ],
 					"source" : [ "obj-43", 0 ]
 				}
 
@@ -2244,7 +2241,8 @@
 				"0" : 				{
 					"index" : 0,
 					"name" : "",
-					"parameters" : [ "-", "-", "-", "-", "-", "-", "-", "-" ]
+					"parameters" : [ "-", "-", "-", "-", "-", "-", "-", "-" ],
+					"buttons" : [ "-", "-", "-", "-", "-", "-", "-", "-" ]
 				}
 
 			}
@@ -2256,6 +2254,13 @@
 				"name" : "link.svg",
 				"bootpath" : "C74:/media/max/picts/m4l-picts",
 				"type" : "svg",
+				"implicit" : 1
+			}
+, 			{
+				"name" : "visual_feedback_linked_sliders.js",
+				"bootpath" : "~/Documents/Max 8/Packages/qdts/patches/solver_nn",
+				"patcherrelativepath" : ".",
+				"type" : "TEXT",
 				"implicit" : 1
 			}
  ],
