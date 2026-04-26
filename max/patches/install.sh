@@ -14,19 +14,43 @@ else
     exit 1
 fi
 
-ZIP_URL="https://github.com/cordutie/qdts/releases/download/$VERSION/$VERSION-$ARCH_LABEL.zip"
+ZIP_URL="https://github.com/cordutie/qdts/releases/download/${VERSION}/${VERSION}-${ARCH_LABEL}.zip"
 
 echo "Architecture: $ARCH"
 echo "Downloading: $ZIP_URL"
 
-# ── Locate Max 9 Packages folder ──────────────────────────────────────────────
-MAX_PACKAGES="$HOME/Documents/Max 9/Packages"
+# ── Locate Max Packages folder ────────────────────────────────────────────────
+MAX8_PACKAGES="$HOME/Documents/Max 8/Packages"
+MAX9_PACKAGES="$HOME/Documents/Max 9/Packages"
 
-if [ ! -d "$MAX_PACKAGES" ]; then
-    echo "WARNING: Max 9 Packages folder not found at default location:"
-    echo "  $MAX_PACKAGES"
+HAS_MAX8=false
+HAS_MAX9=false
+[ -d "$MAX8_PACKAGES" ] && HAS_MAX8=true
+[ -d "$MAX9_PACKAGES" ] && HAS_MAX9=true
+
+if $HAS_MAX8 && $HAS_MAX9; then
     echo ""
-    read -r -p "Enter the path to your Max 9 Packages folder: " CUSTOM_PATH
+    echo "Both Max 8 and Max 9 were found."
+    while true; do
+        read -r -p "Install for Max 8 or Max 9? [8/9]: " MAX_CHOICE
+        case "$MAX_CHOICE" in
+            8) MAX_PACKAGES="$MAX8_PACKAGES"; break ;;
+            9) MAX_PACKAGES="$MAX9_PACKAGES"; break ;;
+            *) echo "Please enter 8 or 9." ;;
+        esac
+    done
+elif $HAS_MAX8; then
+    echo "Max 8 found. Installing there."
+    MAX_PACKAGES="$MAX8_PACKAGES"
+elif $HAS_MAX9; then
+    echo "Max 9 found. Installing there."
+    MAX_PACKAGES="$MAX9_PACKAGES"
+else
+    echo "WARNING: No Max Packages folder found at default locations:"
+    echo "  $MAX8_PACKAGES"
+    echo "  $MAX9_PACKAGES"
+    echo ""
+    read -r -p "Enter the path to your Max Packages folder: " CUSTOM_PATH
     CUSTOM_PATH="${CUSTOM_PATH/#\~/$HOME}"
     if [ ! -d "$CUSTOM_PATH" ]; then
         echo "ERROR: Directory not found at: $CUSTOM_PATH"
