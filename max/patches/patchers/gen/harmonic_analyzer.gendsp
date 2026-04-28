@@ -1,0 +1,360 @@
+{
+	"patcher" : 	{
+		"fileversion" : 1,
+		"appversion" : 		{
+			"major" : 9,
+			"minor" : 0,
+			"revision" : 10,
+			"architecture" : "x64",
+			"modernui" : 1
+		}
+,
+		"classnamespace" : "dsp.gen",
+		"rect" : [ 59.0, 125.0, 600.0, 450.0 ],
+		"gridsize" : [ 15.0, 15.0 ],
+		"boxes" : [ 			{
+				"box" : 				{
+					"id" : "obj-21",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 386.0, 262.0, 42.0, 22.0 ],
+					"text" : "out 17"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-13",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 361.0, 289.0, 42.0, 22.0 ],
+					"text" : "out 16"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-14",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 339.0, 262.0, 42.0, 22.0 ],
+					"text" : "out 15"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-15",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 319.0, 289.0, 42.0, 22.0 ],
+					"text" : "out 14"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-16",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 297.0, 262.0, 42.0, 22.0 ],
+					"text" : "out 13"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-17",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 279.0, 289.0, 42.0, 22.0 ],
+					"text" : "out 12"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-18",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 257.0, 262.0, 41.0, 22.0 ],
+					"text" : "out 11"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-19",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 237.0, 289.0, 42.0, 22.0 ],
+					"text" : "out 10"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-20",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 215.0, 262.0, 35.0, 22.0 ],
+					"text" : "out 9"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-9",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 196.0, 289.0, 35.0, 22.0 ],
+					"text" : "out 8"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-10",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 174.0, 262.0, 35.0, 22.0 ],
+					"text" : "out 7"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-11",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 154.0, 289.0, 35.0, 22.0 ],
+					"text" : "out 6"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-12",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 132.0, 262.0, 35.0, 22.0 ],
+					"text" : "out 5"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-7",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 114.0, 289.0, 35.0, 22.0 ],
+					"text" : "out 4"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-8",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 92.0, 262.0, 35.0, 22.0 ],
+					"text" : "out 3"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-6",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 72.0, 289.0, 35.0, 22.0 ],
+					"text" : "out 2"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"code" : "// qdts.harmonic_analyzer\n// -------------------------------------------------------\n// Extracts harmonic amplitude profile from a monophonic\n// audio signal using the Goertzel algorithm.\n//\n// Inputs:\n//   in1        - audio signal\n//   f0 (param) - fundamental frequency in Hz (from pesto~)\n//   N  (param) - number of harmonics to analyze (1-16)\n//\n// Outputs:\n//   out1-out16 - smoothed amplitude at 1*f0 through 16*f0\n//   out17      - ready pulse (1 sample) → connect to [edge~]\n//\n// Params:\n//   f0         - fundamental frequency (Hz)\n//   N          - number of active harmonics\n//   gain       - output amplitude scaler\n//   smooth     - one-pole smoother coefficient (0=off, 0.99=slow)\n//   predelay   - samples to wait after f0 change before\n//                analyzing (skips attack transients)\n//\n// Behavior:\n//   When f0 changes, waits predelay samples, then accumulates\n//   1024 samples through a Hann-windowed Goertzel filter bank.\n//   On completion, outputs normalized harmonic amplitudes and\n//   pulses out17. Resets and outputs zeros if f0 drops below\n//   20 Hz (unvoiced/silence detection).\n// -------------------------------------------------------\r\n\r\nParam f0(440);\nParam N(1);\nParam gain(1);\nParam smooth(0.8);\nParam predelay(512);\n\nHistory prev_f0(0);\nHistory countdown(0);\n\nHistory s1_1(0);  History s2_1(0);  History amp1_h(0);\nHistory s1_2(0);  History s2_2(0);  History amp2_h(0);\nHistory s1_3(0);  History s2_3(0);  History amp3_h(0);\nHistory s1_4(0);  History s2_4(0);  History amp4_h(0);\nHistory s1_5(0);  History s2_5(0);  History amp5_h(0);\nHistory s1_6(0);  History s2_6(0);  History amp6_h(0);\nHistory s1_7(0);  History s2_7(0);  History amp7_h(0);\nHistory s1_8(0);  History s2_8(0);  History amp8_h(0);\nHistory s1_9(0);  History s2_9(0);  History amp9_h(0);\nHistory s1_10(0); History s2_10(0); History amp10_h(0);\nHistory s1_11(0); History s2_11(0); History amp11_h(0);\nHistory s1_12(0); History s2_12(0); History amp12_h(0);\nHistory s1_13(0); History s2_13(0); History amp13_h(0);\nHistory s1_14(0); History s2_14(0); History amp14_h(0);\nHistory s1_15(0); History s2_15(0); History amp15_h(0);\nHistory s1_16(0); History s2_16(0); History amp16_h(0);\n\nHistory sm1(0);  History sm2(0);  History sm3(0);  History sm4(0);\nHistory sm5(0);  History sm6(0);  History sm7(0);  History sm8(0);\nHistory sm9(0);  History sm10(0); History sm11(0); History sm12(0);\nHistory sm13(0); History sm14(0); History sm15(0); History sm16(0);\n\nx = in1;\n\nf0_changed = f0 != prev_f0;\nprev_f0    = f0;\n\ncountdown = f0_changed ? (1024 + predelay) : max(countdown - 1, 0);\nactive    = (countdown <= 1024) && (countdown > 0);\nready     = countdown == 1;\n\nn   = 1024 - countdown;\nwin = active ? 0.5 * (1 - cos(twopi * n / 1023)) : 0;\nxw  = x * win;\n\nw1  = twopi * 1  * f0 / samplerate; c1  = 2*cos(w1);\nw2  = twopi * 2  * f0 / samplerate; c2  = 2*cos(w2);\nw3  = twopi * 3  * f0 / samplerate; c3  = 2*cos(w3);\nw4  = twopi * 4  * f0 / samplerate; c4  = 2*cos(w4);\nw5  = twopi * 5  * f0 / samplerate; c5  = 2*cos(w5);\nw6  = twopi * 6  * f0 / samplerate; c6  = 2*cos(w6);\nw7  = twopi * 7  * f0 / samplerate; c7  = 2*cos(w7);\nw8  = twopi * 8  * f0 / samplerate; c8  = 2*cos(w8);\nw9  = twopi * 9  * f0 / samplerate; c9  = 2*cos(w9);\nw10 = twopi * 10 * f0 / samplerate; c10 = 2*cos(w10);\nw11 = twopi * 11 * f0 / samplerate; c11 = 2*cos(w11);\nw12 = twopi * 12 * f0 / samplerate; c12 = 2*cos(w12);\nw13 = twopi * 13 * f0 / samplerate; c13 = 2*cos(w13);\nw14 = twopi * 14 * f0 / samplerate; c14 = 2*cos(w14);\nw15 = twopi * 15 * f0 / samplerate; c15 = 2*cos(w15);\nw16 = twopi * 16 * f0 / samplerate; c16 = 2*cos(w16);\n\nsn1  = active ? xw + c1  * s1_1  - s2_1  : 0;\nsn2  = active ? xw + c2  * s1_2  - s2_2  : 0;\nsn3  = active ? xw + c3  * s1_3  - s2_3  : 0;\nsn4  = active ? xw + c4  * s1_4  - s2_4  : 0;\nsn5  = active ? xw + c5  * s1_5  - s2_5  : 0;\nsn6  = active ? xw + c6  * s1_6  - s2_6  : 0;\nsn7  = active ? xw + c7  * s1_7  - s2_7  : 0;\nsn8  = active ? xw + c8  * s1_8  - s2_8  : 0;\nsn9  = active ? xw + c9  * s1_9  - s2_9  : 0;\nsn10 = active ? xw + c10 * s1_10 - s2_10 : 0;\nsn11 = active ? xw + c11 * s1_11 - s2_11 : 0;\nsn12 = active ? xw + c12 * s1_12 - s2_12 : 0;\nsn13 = active ? xw + c13 * s1_13 - s2_13 : 0;\nsn14 = active ? xw + c14 * s1_14 - s2_14 : 0;\nsn15 = active ? xw + c15 * s1_15 - s2_15 : 0;\nsn16 = active ? xw + c16 * s1_16 - s2_16 : 0;\n\namp1_h  = ready ? 2*sqrt(max(sn1 *sn1  + s1_1 *s1_1  - c1 *sn1 *s1_1,  0))/512 : amp1_h;\namp2_h  = ready ? 2*sqrt(max(sn2 *sn2  + s1_2 *s1_2  - c2 *sn2 *s1_2,  0))/512 : amp2_h;\namp3_h  = ready ? 2*sqrt(max(sn3 *sn3  + s1_3 *s1_3  - c3 *sn3 *s1_3,  0))/512 : amp3_h;\namp4_h  = ready ? 2*sqrt(max(sn4 *sn4  + s1_4 *s1_4  - c4 *sn4 *s1_4,  0))/512 : amp4_h;\namp5_h  = ready ? 2*sqrt(max(sn5 *sn5  + s1_5 *s1_5  - c5 *sn5 *s1_5,  0))/512 : amp5_h;\namp6_h  = ready ? 2*sqrt(max(sn6 *sn6  + s1_6 *s1_6  - c6 *sn6 *s1_6,  0))/512 : amp6_h;\namp7_h  = ready ? 2*sqrt(max(sn7 *sn7  + s1_7 *s1_7  - c7 *sn7 *s1_7,  0))/512 : amp7_h;\namp8_h  = ready ? 2*sqrt(max(sn8 *sn8  + s1_8 *s1_8  - c8 *sn8 *s1_8,  0))/512 : amp8_h;\namp9_h  = ready ? 2*sqrt(max(sn9 *sn9  + s1_9 *s1_9  - c9 *sn9 *s1_9,  0))/512 : amp9_h;\namp10_h = ready ? 2*sqrt(max(sn10*sn10 + s1_10*s1_10 - c10*sn10*s1_10, 0))/512 : amp10_h;\namp11_h = ready ? 2*sqrt(max(sn11*sn11 + s1_11*s1_11 - c11*sn11*s1_11, 0))/512 : amp11_h;\namp12_h = ready ? 2*sqrt(max(sn12*sn12 + s1_12*s1_12 - c12*sn12*s1_12, 0))/512 : amp12_h;\namp13_h = ready ? 2*sqrt(max(sn13*sn13 + s1_13*s1_13 - c13*sn13*s1_13, 0))/512 : amp13_h;\namp14_h = ready ? 2*sqrt(max(sn14*sn14 + s1_14*s1_14 - c14*sn14*s1_14, 0))/512 : amp14_h;\namp15_h = ready ? 2*sqrt(max(sn15*sn15 + s1_15*s1_15 - c15*sn15*s1_15, 0))/512 : amp15_h;\namp16_h = ready ? 2*sqrt(max(sn16*sn16 + s1_16*s1_16 - c16*sn16*s1_16, 0))/512 : amp16_h;\n\ns2_1  = f0_changed ? 0 : s1_1;  s1_1  = f0_changed ? 0 : sn1;\ns2_2  = f0_changed ? 0 : s1_2;  s1_2  = f0_changed ? 0 : sn2;\ns2_3  = f0_changed ? 0 : s1_3;  s1_3  = f0_changed ? 0 : sn3;\ns2_4  = f0_changed ? 0 : s1_4;  s1_4  = f0_changed ? 0 : sn4;\ns2_5  = f0_changed ? 0 : s1_5;  s1_5  = f0_changed ? 0 : sn5;\ns2_6  = f0_changed ? 0 : s1_6;  s1_6  = f0_changed ? 0 : sn6;\ns2_7  = f0_changed ? 0 : s1_7;  s1_7  = f0_changed ? 0 : sn7;\ns2_8  = f0_changed ? 0 : s1_8;  s1_8  = f0_changed ? 0 : sn8;\ns2_9  = f0_changed ? 0 : s1_9;  s1_9  = f0_changed ? 0 : sn9;\ns2_10 = f0_changed ? 0 : s1_10; s1_10 = f0_changed ? 0 : sn10;\ns2_11 = f0_changed ? 0 : s1_11; s1_11 = f0_changed ? 0 : sn11;\ns2_12 = f0_changed ? 0 : s1_12; s1_12 = f0_changed ? 0 : sn12;\ns2_13 = f0_changed ? 0 : s1_13; s1_13 = f0_changed ? 0 : sn13;\ns2_14 = f0_changed ? 0 : s1_14; s1_14 = f0_changed ? 0 : sn14;\ns2_15 = f0_changed ? 0 : s1_15; s1_15 = f0_changed ? 0 : sn15;\ns2_16 = f0_changed ? 0 : s1_16; s1_16 = f0_changed ? 0 : sn16;\n\ngate = f0 > 20;\ng    = gate * gain;\nc    = 1 - smooth;\n\nsm1  = sm1  * smooth + amp1_h  * c;\nsm2  = sm2  * smooth + amp2_h  * c;\nsm3  = sm3  * smooth + amp3_h  * c;\nsm4  = sm4  * smooth + amp4_h  * c;\nsm5  = sm5  * smooth + amp5_h  * c;\nsm6  = sm6  * smooth + amp6_h  * c;\nsm7  = sm7  * smooth + amp7_h  * c;\nsm8  = sm8  * smooth + amp8_h  * c;\nsm9  = sm9  * smooth + amp9_h  * c;\nsm10 = sm10 * smooth + amp10_h * c;\nsm11 = sm11 * smooth + amp11_h * c;\nsm12 = sm12 * smooth + amp12_h * c;\nsm13 = sm13 * smooth + amp13_h * c;\nsm14 = sm14 * smooth + amp14_h * c;\nsm15 = sm15 * smooth + amp15_h * c;\nsm16 = sm16 * smooth + amp16_h * c;\n\nout1  = sm1  * (N >= 1)  * g;\nout2  = sm2  * (N >= 2)  * g;\nout3  = sm3  * (N >= 3)  * g;\nout4  = sm4  * (N >= 4)  * g;\nout5  = sm5  * (N >= 5)  * g;\nout6  = sm6  * (N >= 6)  * g;\nout7  = sm7  * (N >= 7)  * g;\nout8  = sm8  * (N >= 8)  * g;\nout9  = sm9  * (N >= 9)  * g;\nout10 = sm10 * (N >= 10) * g;\nout11 = sm11 * (N >= 11) * g;\nout12 = sm12 * (N >= 12) * g;\nout13 = sm13 * (N >= 13) * g;\nout14 = sm14 * (N >= 14) * g;\nout15 = sm15 * (N >= 15) * g;\nout16 = sm16 * (N >= 16) * g;\nout17 = ready;",
+					"fontface" : 0,
+					"fontname" : "<Monospaced>",
+					"fontsize" : 12.0,
+					"id" : "obj-5",
+					"maxclass" : "codebox",
+					"numinlets" : 1,
+					"numoutlets" : 17,
+					"outlettype" : [ "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "" ],
+					"patching_rect" : [ 50.0, 51.0, 340.0, 200.0 ]
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-1",
+					"maxclass" : "newobj",
+					"numinlets" : 0,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 50.0, 14.0, 28.0, 22.0 ],
+					"text" : "in 1"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-4",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 50.0, 262.0, 35.0, 22.0 ],
+					"text" : "out 1"
+				}
+
+			}
+ ],
+		"lines" : [ 			{
+				"patchline" : 				{
+					"destination" : [ "obj-5", 0 ],
+					"source" : [ "obj-1", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-10", 0 ],
+					"source" : [ "obj-5", 6 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-11", 0 ],
+					"source" : [ "obj-5", 5 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-12", 0 ],
+					"source" : [ "obj-5", 4 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-13", 0 ],
+					"source" : [ "obj-5", 15 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-14", 0 ],
+					"source" : [ "obj-5", 14 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-15", 0 ],
+					"source" : [ "obj-5", 13 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-16", 0 ],
+					"source" : [ "obj-5", 12 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-17", 0 ],
+					"source" : [ "obj-5", 11 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-18", 0 ],
+					"source" : [ "obj-5", 10 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-19", 0 ],
+					"source" : [ "obj-5", 9 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-20", 0 ],
+					"source" : [ "obj-5", 8 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-21", 0 ],
+					"source" : [ "obj-5", 16 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-4", 0 ],
+					"source" : [ "obj-5", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-6", 0 ],
+					"source" : [ "obj-5", 1 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-7", 0 ],
+					"source" : [ "obj-5", 3 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-8", 0 ],
+					"source" : [ "obj-5", 2 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-9", 0 ],
+					"source" : [ "obj-5", 7 ]
+				}
+
+			}
+ ],
+		"autosave" : 0
+	}
+
+}
