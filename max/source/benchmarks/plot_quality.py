@@ -2,16 +2,17 @@
 """
 plot_quality.py  —  max/source/benchmarks/
 
-Reads the CSV produced by benchmark_quality and generates a publication-
-quality figure showing reconstruction error (mean ± std, with dashed
-min/max lines) over N for qdts.solver_nn.
+Reads the CSV produced by benchmark_quality and generates two figures:
+
+  Figure 1 (_nn):         qdts.solver_nn only — mean ± std, y ∈ [0, 1]
+  Figure 2 (_comparison): qdts.solver vs qdts.solver_nn — mean ± std
 
 Usage:
     python plot_quality.py [input_csv] [output_base]
 
 Defaults:
     input_csv   = results/quality_results.csv
-    output_base = results/quality_results_plot   (writes .pdf and .png)
+    output_base = results/quality_results_plot
 """
 
 import sys
@@ -22,6 +23,7 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
+from matplotlib.lines   import Line2D
 from matplotlib.patches import Patch
 from matplotlib.legend_handler import HandlerTuple
 
@@ -32,18 +34,22 @@ input_csv   = sys.argv[1] if len(sys.argv) > 1 \
 output_base = sys.argv[2] if len(sys.argv) > 2 \
               else os.path.join(script_dir, "results", "quality_results_plot")
 
-Ns, mean_err, std_err, min_err, max_err = [], [], [], [], []
+Ns              = []
+nn_mean         = []
+nn_std          = []
+solver_mean     = []
+solver_std      = []
 
 with open(input_csv, newline="") as f:
     reader = csv.DictReader(f)
     for row in reader:
         Ns.append(int(row["N"]))
-        mean_err.append(float(row["mean_error"]))
-        std_err.append(float(row["std_error"]))
-        min_err.append(float(row["min_error"]))
-        max_err.append(float(row["max_error"]))
+        nn_mean.append(float(row["nn_mean_error"]))
+        nn_std.append(float(row["nn_std_error"]))
+        solver_mean.append(float(row["solver_mean_error"]))
+        solver_std.append(float(row["solver_std_error"]))
 
-# ── style ─────────────────────────────────────────────────────────────────────
+# ── shared style ──────────────────────────────────────────────────────────────
 plt.rcParams.update({
     "font.family":        "serif",
     "font.serif":         ["Times New Roman", "Times", "DejaVu Serif"],
@@ -63,30 +69,34 @@ plt.rcParams.update({
     "ps.fonttype":        42,
 })
 
-BLUE = "#2166AC"
+BLUE   = "#2166AC"   # qdts.solver_nn
+ORANGE = "#D6604D"   # qdts.solver
 
-fig, ax = plt.subplots(figsize=(4.5, 3.0))
+def _style_axes(ax, ylim=None):
+    ax.set_xlabel(r"Number of Target Harmonics, $N$")
+    ax.set_ylabel("Reconstruction Error (MSE)")
+    ax.set_xticks(Ns)
+    ax.xaxis.set_minor_locator(ticker.NullLocator())
+    ax.yaxis.set_minor_locator(ticker.AutoMinorLocator(2))
+    ax.grid(axis="y", linestyle="--", linewidth=0.5, alpha=0.55)
+    if ylim is not None:
+        ax.set_ylim(*ylim)
+    else:
+        ax.set_ylim(bottom=0)
 
-# ── mean line + std band ──────────────────────────────────────────────────────
-lo = [m - s for m, s in zip(mean_err, std_err)]
-hi = [m + s for m, s in zip(mean_err, std_err)]
-line_mean, = ax.plot(Ns, mean_err, "o-", color=BLUE)
-band = ax.fill_between(Ns, lo, hi, alpha=0.20, color=BLUE, linewidth=0)
+# ── Figure 1: solver_nn only, y ∈ [0, 1] ─────────────────────────────────────
+fig1, ax1 = plt.subplots(figsize=(4.5, 3.0))
 
-# ── axes ──────────────────────────────────────────────────────────────────────
-ax.set_xlabel(r"Number of Target Harmonics, $N$")
-ax.set_ylabel("Reconstruction Error (MSE)")
-ax.set_xticks(Ns)
-ax.xaxis.set_minor_locator(ticker.NullLocator())
-ax.yaxis.set_minor_locator(ticker.AutoMinorLocator(2))
-ax.grid(axis="y", linestyle="--", linewidth=0.5, alpha=0.55)
-ax.set_ylim(0, 1)
+lo = [m - s for m, s in zip(nn_mean, nn_std)]
+hi = [m + s for m, s in zip(nn_mean, nn_std)]
+line_nn, = ax1.plot(Ns, nn_mean, "o-", color=BLUE)
+ax1.fill_between(Ns, lo, hi, alpha=0.20, color=BLUE, linewidth=0)
 
-# ── legend ────────────────────────────────────────────────────────────────────
-h_mean = (line_mean, Patch(facecolor=BLUE, alpha=0.30, linewidth=0))
+_style_axes(ax1, ylim=(0, 1))
 
-ax.legend(
-    [h_mean],
+h_nn = (line_nn, Patch(facecolor=BLUE, alpha=0.30, linewidth=0))
+ax1.legend(
+    [h_nn],
     ["qdts.solver_nn"],
     handler_map={tuple: HandlerTuple(ndivide=None, pad=0.6)},
     title=r"mean $\pm$ std (shaded)",
@@ -100,11 +110,86 @@ ax.legend(
     handlelength=2.2,
 )
 
-fig.tight_layout()
+fig1.tight_layout()
+fig1.savefig(output_base + "_nn.pdf", bbox_inches="tight")
+fig1.savefig(output_base + "_nn.png", dpi=300, bbox_inches="tight")
+print(f"NN plot        → {output_base}_nn.pdf")
+print(f"               → {output_base}_nn.png")
 
-pdf_path = output_base + ".pdf"
-png_path = output_base + ".png"
-fig.savefig(pdf_path, bbox_inches="tight")
-fig.savefig(png_path, dpi=300, bbox_inches="tight")
-print(f"Plot saved → {pdf_path}")
-print(f"           → {png_path}")
+# ── Figure 2: comparison ──────────────────────────────────────────────────────
+fig2, ax2 = plt.subplots(figsize=(4.5, 3.0))
+
+lo_s = [m - s for m, s in zip(solver_mean, solver_std)]
+hi_s = [m + s for m, s in zip(solver_mean, solver_std)]
+line_s, = ax2.plot(Ns, solver_mean, "o-", color=ORANGE)
+ax2.fill_between(Ns, lo_s, hi_s, alpha=0.20, color=ORANGE, linewidth=0)
+
+lo_n = [m - s for m, s in zip(nn_mean, nn_std)]
+hi_n = [m + s for m, s in zip(nn_mean, nn_std)]
+line_n, = ax2.plot(Ns, nn_mean, "s-", color=BLUE)
+ax2.fill_between(Ns, lo_n, hi_n, alpha=0.20, color=BLUE, linewidth=0)
+
+_style_axes(ax2)
+
+h_s = (Line2D([0], [0], color=ORANGE, marker="o", linewidth=1.5, markersize=5),
+       Patch(facecolor=ORANGE, alpha=0.30, linewidth=0))
+h_n = (Line2D([0], [0], color=BLUE,   marker="s", linewidth=1.5, markersize=5),
+       Patch(facecolor=BLUE,   alpha=0.30, linewidth=0))
+ax2.legend(
+    [h_s, h_n],
+    ["qdts.solver", "qdts.solver_nn"],
+    handler_map={tuple: HandlerTuple(ndivide=None, pad=0.6)},
+    title=r"mean $\pm$ std (shaded)",
+    title_fontsize=9,
+    fontsize=10,
+    frameon=True,
+    framealpha=0.9,
+    edgecolor="0.8",
+    borderpad=0.7,
+    labelspacing=0.5,
+    handlelength=2.2,
+)
+
+fig2.tight_layout()
+fig2.savefig(output_base + "_comparison.pdf", bbox_inches="tight")
+fig2.savefig(output_base + "_comparison.png", dpi=300, bbox_inches="tight")
+print(f"Comparison plot → {output_base}_comparison.pdf")
+print(f"                → {output_base}_comparison.png")
+
+# ── Figure 3: comparison, log-scale y ────────────────────────────────────────
+fig3, ax3 = plt.subplots(figsize=(4.5, 3.0))
+
+ax3.plot(Ns, solver_mean, "o-", color=ORANGE)
+ax3.fill_between(Ns, lo_s, hi_s, alpha=0.20, color=ORANGE, linewidth=0)
+
+ax3.plot(Ns, nn_mean, "s-", color=BLUE)
+ax3.fill_between(Ns, lo_n, hi_n, alpha=0.20, color=BLUE, linewidth=0)
+
+ax3.set_xlabel(r"Number of Target Harmonics, $N$")
+ax3.set_ylabel("Reconstruction Error (MSE)")
+ax3.set_xticks(Ns)
+ax3.set_yscale("log")
+ax3.xaxis.set_minor_locator(ticker.NullLocator())
+ax3.yaxis.set_major_formatter(ticker.LogFormatterSciNotation())
+ax3.grid(axis="y", linestyle="--", linewidth=0.5, alpha=0.55)
+
+ax3.legend(
+    [h_s, h_n],
+    ["qdts.solver", "qdts.solver_nn"],
+    handler_map={tuple: HandlerTuple(ndivide=None, pad=0.6)},
+    title=r"mean $\pm$ std (shaded)",
+    title_fontsize=9,
+    fontsize=10,
+    frameon=True,
+    framealpha=0.9,
+    edgecolor="0.8",
+    borderpad=0.7,
+    labelspacing=0.5,
+    handlelength=2.2,
+)
+
+fig3.tight_layout()
+fig3.savefig(output_base + "_comparison_log.pdf", bbox_inches="tight")
+fig3.savefig(output_base + "_comparison_log.png", dpi=300, bbox_inches="tight")
+print(f"Log comparison  → {output_base}_comparison_log.pdf")
+print(f"                → {output_base}_comparison_log.png")

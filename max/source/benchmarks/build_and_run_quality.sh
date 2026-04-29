@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # build_and_run_quality.sh
 #
-# Compiles benchmark_quality.cpp against ONNX Runtime,
-# then runs the qdts.solver_nn generation quality benchmark.
+# Compiles benchmark_quality.cpp against ONNX Runtime and Eigen,
+# then runs the generation quality benchmark (qdts.solver vs qdts.solver_nn).
 #
 # Usage:
 #   ./build_and_run_quality.sh [onnx_dir] [output_base] [num_inputs]
@@ -12,8 +12,8 @@
 #   output_base = results/quality_results
 #   num_inputs  = 10000
 #
-# Override ORT location:
-#   ORT_ROOT=/path/to/onnxruntime ./build_and_run_quality.sh
+# Override ORT or Eigen locations:
+#   ORT_ROOT=/path/to/onnxruntime EIGEN_ROOT=/path/to/eigen ./build_and_run_quality.sh
 #
 set -euo pipefail
 
@@ -41,7 +41,28 @@ if [[ -z "${ORT_ROOT:-}" ]]; then
     exit 1
 fi
 
-echo "Using ORT: ${ORT_ROOT}"
+# ── locate Eigen ──────────────────────────────────────────────────────────────
+if [[ -z "${EIGEN_ROOT:-}" ]]; then
+    EIGEN_CANDIDATES=(
+        "${SCRIPT_DIR}/../../cmake-build-release/_deps/eigen3-src"
+        "/opt/homebrew/include/eigen3"
+        "/usr/local/include/eigen3"
+    )
+    for candidate in "${EIGEN_CANDIDATES[@]}"; do
+        if [[ -f "${candidate}/Eigen/Dense" ]]; then
+            EIGEN_ROOT="$candidate"
+            break
+        fi
+    done
+fi
+
+if [[ -z "${EIGEN_ROOT:-}" ]]; then
+    echo "ERROR: Eigen not found. Set EIGEN_ROOT=/path/to/eigen-src"
+    exit 1
+fi
+
+echo "Using ORT  : ${ORT_ROOT}"
+echo "Using Eigen: ${EIGEN_ROOT}"
 
 # ── args ──────────────────────────────────────────────────────────────────────
 ONNX_DIR="${1:-${REPO_ROOT}/experiments/qdts_solver_nn/onnx_exports}"
@@ -60,6 +81,7 @@ clang++ \
     -std=c++17 \
     -O2 \
     -I"${ORT_ROOT}/include" \
+    -I"${EIGEN_ROOT}" \
     -o "${BINARY}" \
     "${SRC}" \
     -L"${ORT_ROOT}/lib" \
@@ -88,7 +110,7 @@ PLOT_BASE="${OUT_BASE}_plot"
 
 if command -v python3 &>/dev/null && [[ -f "${PLOT_SCRIPT}" ]]; then
     echo ""
-    echo "Generating plot ..."
+    echo "Generating plots ..."
     python3 "${PLOT_SCRIPT}" "${OUT_BASE}.csv" "${PLOT_BASE}"
 else
     echo ""
