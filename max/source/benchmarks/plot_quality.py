@@ -80,7 +80,7 @@ ax.set_xticks(Ns)
 ax.xaxis.set_minor_locator(ticker.NullLocator())
 ax.yaxis.set_minor_locator(ticker.AutoMinorLocator(2))
 ax.grid(axis="y", linestyle="--", linewidth=0.5, alpha=0.55)
-ax.set_ylim(bottom=0)
+ax.set_ylim(0, 1)
 
 # ── legend ────────────────────────────────────────────────────────────────────
 h_mean = (line_mean, Patch(facecolor=BLUE, alpha=0.30, linewidth=0))
