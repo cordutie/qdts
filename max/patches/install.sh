@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-VERSION="qdts-v0.2"
+VERSION="qdts-v0.3"
 
 # ── Detect architecture ────────────────────────────────────────────────────────
 ARCH=$(uname -m)
