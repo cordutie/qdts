@@ -97,7 +97,7 @@ _style_axes(ax1, ylim=(0, 1))
 h_nn = (line_nn, Patch(facecolor=BLUE, alpha=0.30, linewidth=0))
 ax1.legend(
     [h_nn],
-    ["qdts.solver_nn"],
+    ["Neural Network Solver"],
     handler_map={tuple: HandlerTuple(ndivide=None, pad=0.6)},
     title=r"mean $\pm$ std (shaded)",
     title_fontsize=9,
@@ -137,7 +137,7 @@ h_n = (Line2D([0], [0], color=BLUE,   marker="s", linewidth=1.5, markersize=5),
        Patch(facecolor=BLUE,   alpha=0.30, linewidth=0))
 ax2.legend(
     [h_s, h_n],
-    ["qdts.solver", "qdts.solver_nn"],
+    ["Newton-Raphson Solver", "Neural Network Solver"],
     handler_map={tuple: HandlerTuple(ndivide=None, pad=0.6)},
     title=r"mean $\pm$ std (shaded)",
     title_fontsize=9,
@@ -175,7 +175,7 @@ ax3.grid(axis="y", linestyle="--", linewidth=0.5, alpha=0.55)
 
 ax3.legend(
     [h_s, h_n],
-    ["qdts.solver", "qdts.solver_nn"],
+    ["Newton-Raphson Solver", "Neural Network Solver"],
     handler_map={tuple: HandlerTuple(ndivide=None, pad=0.6)},
     title=r"mean $\pm$ std (shaded)",
     title_fontsize=9,

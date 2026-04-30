@@ -98,7 +98,7 @@ h_n = (Line2D([0], [0], color=BLUE,   marker="s", linewidth=1.5, markersize=5),
 
 ax.legend(
     [h_s, h_n],
-    ["qdts.solver", "qdts.solver_nn"],
+    ["Newton-Raphson Solver", "Neural Network Solver"],
     handler_map={tuple: HandlerTuple(ndivide=None, pad=0.6)},
     title=r"mean $\pm$ std (shaded)",
     title_fontsize=9,

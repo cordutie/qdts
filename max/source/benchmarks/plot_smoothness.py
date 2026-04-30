@@ -130,7 +130,7 @@ h_mean = (line_mean, Patch(facecolor=BLUE, alpha=0.30, linewidth=0))
 h_diag = Line2D([0], [0], color=GRAY, linewidth=1.0, linestyle="--")
 ax1.legend(
     [h_mean, h_diag],
-    ["qdts.solver_nn", "ideal (linear)"],
+    ["Neural Network Solver", "ideal (linear)"],
     handler_map={tuple: HandlerTuple(ndivide=None, pad=0.6)},
     title=r"mean $\pm$ std (shaded)",
     title_fontsize=9,
@@ -181,7 +181,7 @@ h_box  = (Line2D([0], [0], color=BLUE, linewidth=1.5),
 h_diag = Line2D([0], [0], color=GRAY, linewidth=1.0, linestyle="--")
 ax2.legend(
     [h_box, h_diag],
-    ["qdts.solver_nn", "ideal (linear)"],
+    ["Neural Network Solver", "ideal (linear)"],
     handler_map={tuple: HandlerTuple(ndivide=None, pad=0.6)},
     title="median, IQR, 1.5×IQR",
     title_fontsize=9,
