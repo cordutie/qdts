@@ -106,7 +106,9 @@ static M DF(const V& x) {
 static double solveError(const std::vector<float>& target, std::mt19937& rng) {
     const int n = static_cast<int>(target.size());
     V init_T(n), T(n);
-    for (int i = 0; i < n; ++i) init_T(i) = T(i) = static_cast<double>(target[i]);
+    // A() outputs [tN, ..., t1] (reversed w.r.t. paper order).
+    // Reverse the target so that A(best) - init_T compares matching components.
+    for (int i = 0; i < n; ++i) init_T(i) = T(i) = static_cast<double>(target[n-1-i]);
 
     std::uniform_real_distribution<double> u01(0.0, 1.0);
     auto rand_vec = [&]() -> V {
@@ -156,8 +158,9 @@ static double solveError(const std::vector<float>& target, std::mt19937& rng) {
         }
     }
 
-    V residual = A(best) - init_T;
-    return residual.squaredNorm() / static_cast<double>(n);
+    // Use NR's own error metric (squared norm of F), divided by N to match
+    // solver_nn's MSE (torch mse_loss = mean of squared differences).
+    return F(best, init_T).squaredNorm() / static_cast<double>(n);
 }
 
 } // namespace qdts_solver

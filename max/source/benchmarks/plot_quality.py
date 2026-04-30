@@ -169,9 +169,24 @@ ax3.set_xlabel(r"Number of Target Harmonics, $N$")
 ax3.set_ylabel("Reconstruction Error (MSE)")
 ax3.set_xticks(Ns)
 ax3.set_yscale("log")
+ax3.set_ylim(1e-6, 1e2)
 ax3.xaxis.set_minor_locator(ticker.NullLocator())
 ax3.yaxis.set_major_formatter(ticker.LogFormatterSciNotation())
 ax3.grid(axis="y", linestyle="--", linewidth=0.5, alpha=0.55)
+
+# ── annotate peak of each solver ──────────────────────────────────────────────
+nn_peak_idx     = nn_mean.index(max(nn_mean))
+solver_peak_idx = solver_mean.index(max(solver_mean))
+
+ax3.annotate(f"{nn_mean[nn_peak_idx]:.2e}",
+    xy=(Ns[nn_peak_idx], nn_mean[nn_peak_idx]),
+    xytext=(0, 8), textcoords="offset points",
+    fontsize=7.5, color=BLUE, ha="center")
+
+ax3.annotate(f"{solver_mean[solver_peak_idx]:.2e}",
+    xy=(Ns[solver_peak_idx], solver_mean[solver_peak_idx]),
+    xytext=(0, 8), textcoords="offset points",
+    fontsize=7.5, color=ORANGE, ha="center")
 
 ax3.legend(
     [h_s, h_n],
@@ -186,6 +201,7 @@ ax3.legend(
     borderpad=0.7,
     labelspacing=0.5,
     handlelength=2.2,
+    loc="upper right",
 )
 
 fig3.tight_layout()
