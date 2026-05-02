@@ -4,7 +4,7 @@
  * Smoothness benchmark for qdts.solver_nn.
  *
  * For each N in [5, 16] and each of the 16 model variants:
- *   - generates NUM_PAIRS random endpoint vectors A ~ U[0, 2]^N,  B = 2 - A
+ *   - generates NUM_PAIRS random endpoint vectors A ~ U[0, 1]^N, B = 1 - A
  *   - evaluates f(A) and f(B) (carrier outputs at the endpoints)
  *   - interpolates at t = 0, 0.1, ..., 1.0  (11 points, endpoints included)
  *   - for each interior t:
@@ -149,13 +149,13 @@ int main(int argc, char* argv[]) {
         std::cout << "ok\n";
 
         std::mt19937 rng(42 + static_cast<unsigned>(n));
-        std::uniform_real_distribution<float> dist(0.0f, 2.0f);
+        std::uniform_real_distribution<float> udist(0.0f, 1.0f);
 
         for (int pair = 0; pair < num_pairs; ++pair) {
             std::vector<float> A(static_cast<size_t>(n)), B(static_cast<size_t>(n));
             for (int i = 0; i < n; ++i) {
-                A[i] = dist(rng);
-                B[i] = 2.0f - A[i];
+                A[i] = udist(rng);
+                B[i] = 1.0f - A[i];
             }
 
             for (int vi = 0; vi < NUM_VARIANTS; ++vi) {
@@ -215,6 +215,7 @@ int main(int argc, char* argv[]) {
     f << "QDTS solver_nn Output Smoothness Benchmark\n";
     f << "pairs per N          : " << num_pairs << "\n";
     f << "variants per N       : " << NUM_VARIANTS << "\n";
+    f << "data range           : A ~ U[0,1]^N, B = 1 - A\n";
     f << "t values             : 0.0, 0.1, ..., 1.0\n";
     f << "metric               : normalized output distance\n";
     f << "                       ||f(T_t) - f(A)|| / ||f(B) - f(A)||\n";

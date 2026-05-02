@@ -46,7 +46,7 @@ echo "Using ORT: ${ORT_ROOT}"
 # ── args ──────────────────────────────────────────────────────────────────────
 ONNX_DIR="${1:-${REPO_ROOT}/experiments/qdts_solver_nn/onnx_exports}"
 OUT_BASE="${2:-${SCRIPT_DIR}/results/smoothness_results}"
-NUM_PAIRS="${3:-10000}"
+NUM_PAIRS="${3:-1000}"
 
 mkdir -p "$(dirname "${OUT_BASE}")"
 
