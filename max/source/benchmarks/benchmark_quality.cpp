@@ -2,15 +2,18 @@
  * benchmark_quality.cpp  —  max/source/benchmarks/
  *
  * Generation quality benchmark: qdts.solver vs qdts.solver_nn.
- * For each N in [5, 16]:
- *   - generates NUM_INPUTS random target amplitude vectors from [0, 1]
- *   - runs qdts.solver (Newton-Raphson) on every input and records reconstruction MSE
- *   - runs all 16 qdts.solver_nn variants on every input and records clamped MSE
+ *
+ * For each radius in RADII and each N in [5, 16]:
+ *   - generates NUM_INPUTS random target amplitude vectors from [0.5, 0.5+radius]
+ *     (matches the training data generator: torch.rand(n)*radius + 0.5)
+ *   - inputs are generated in chunks of CHUNK_SIZE for memory efficiency
+ *   - runs all 16 qdts.solver_nn variants and records clamped MSE
+ *   - runs qdts.solver (Newton-Raphson) and records reconstruction MSE
  *   - computes mean, std, min, max for each solver
  *
  * Results are written to:
- *   <output_base>.txt   – human-readable table
- *   <output_base>.csv   – per-N stats for both solvers, used by the plotting script
+ *   <output_base>.txt   – human-readable table grouped by radius
+ *   <output_base>.csv   – per-radius per-N stats (radius column added)
  *   <output_base>.tex   – LaTeX table
  *
  * Build and run via the shell script in this folder:
@@ -32,10 +35,14 @@
 #include <vector>
 
 // ── constants ─────────────────────────────────────────────────────────────────
-static constexpr int N_MIN        = 5;
-static constexpr int N_MAX        = 16;
-static constexpr int NUM_VARIANTS = 16;
-static constexpr int DEFAULT_RUNS = 10000;
+static constexpr int   N_MIN        = 5;
+static constexpr int   N_MAX        = 16;
+static constexpr int   NUM_VARIANTS = 16;
+static constexpr int   DEFAULT_RUNS = 10000;
+static constexpr int   CHUNK_SIZE   = 1000;    // inputs per chunk
+static constexpr float DATA_LO      = 0.5f;   // matches training: torch.rand*r + 0.5
+
+static const std::vector<float> RADII = { 0.1f, 0.2f, 0.3f, 0.4f, 0.5f };
 
 // ── statistics ────────────────────────────────────────────────────────────────
 struct Stats { double mean, std_dev, min, max; };
@@ -102,7 +109,7 @@ static M DF(const V& x) {
     return z;
 }
 
-// Run solver and return reconstruction MSE = ||D(best) - T||^2 / N
+// Run solver and return reconstruction MSE = ||F(best, T)||^2 / N
 static double solveError(const std::vector<float>& target, std::mt19937& rng) {
     const int n = static_cast<int>(target.size());
     V init_T(n), T(n);
@@ -170,14 +177,21 @@ static std::string modelPath(const std::string& dir, int n) {
     return dir + "/qdts_solver_N" + std::to_string(n) + ".onnx";
 }
 
-static std::vector<float> randomInput(int n, std::mt19937& rng) {
-    std::uniform_real_distribution<float> dist(0.0f, 1.0f);
-    std::vector<float> v(static_cast<size_t>(n));
-    for (auto& x : v) x = dist(rng);
-    return v;
+// Generate a chunk of random inputs in [lo, hi]
+static std::vector<std::vector<float>> randomChunk(
+        int n, int chunk_size, std::mt19937& rng, float lo, float hi) {
+    std::uniform_real_distribution<float> dist(lo, hi);
+    std::vector<std::vector<float>> chunk;
+    chunk.reserve(static_cast<size_t>(chunk_size));
+    for (int i = 0; i < chunk_size; ++i) {
+        std::vector<float> v(static_cast<size_t>(n));
+        for (auto& x : v) x = dist(rng);
+        chunk.push_back(std::move(v));
+    }
+    return chunk;
 }
 
-struct NResult { int n; Stats nn; Stats solver; };
+struct NResult { float radius; int n; Stats nn; Stats solver; };
 
 // ── main ──────────────────────────────────────────────────────────────────────
 int main(int argc, char* argv[]) {
@@ -202,119 +216,131 @@ int main(int argc, char* argv[]) {
     const char* out_names[] = {"X_hat", "error", "X_hat_clamped", "error_clamped"};
 
     std::vector<NResult> results;
-    std::vector<double>  all_nn_errors, all_solver_errors;
 
-    for (int n = N_MIN; n <= N_MAX; ++n) {
-        std::cout << "── N=" << n << " ────────────────────────────────\n";
+    for (float radius : RADII) {
+        const float lo = DATA_LO;
+        const float hi = DATA_LO + radius;
 
-        std::mt19937 rng(42 + static_cast<unsigned>(n));
-        std::vector<std::vector<float>> inputs;
-        inputs.reserve(static_cast<size_t>(num_inputs));
-        for (int i = 0; i < num_inputs; ++i)
-            inputs.push_back(randomInput(n, rng));
+        std::cout << "\n══ radius=" << radius
+                  << "  inputs in [" << lo << ", " << hi << "] ══\n";
 
-        // ── qdts.solver_nn ────────────────────────────────────────────────────
-        std::string path = modelPath(onnx_dir, n);
-        std::cout << "  qdts.solver_nn  loading " << path << " ... " << std::flush;
-        Ort::Session session(env, path.c_str(), sess_opts);
-        std::cout << "ok\n";
+        for (int n = N_MIN; n <= N_MAX; ++n) {
+            std::cout << "  ── N=" << n << "\n";
 
-        int64_t n64 = static_cast<int64_t>(n);
-        std::array<int64_t, 2> T_shape  = {1, n64};
-        std::array<int64_t, 0> vi_shape = {};
+            // ── load ONNX session (once per N) ────────────────────────────────
+            std::string path = modelPath(onnx_dir, n);
+            Ort::Session session(env, path.c_str(), sess_opts);
 
-        std::vector<double> nn_errors;
-        nn_errors.reserve(static_cast<size_t>(NUM_VARIANTS * num_inputs));
+            int64_t n64 = static_cast<int64_t>(n);
+            std::array<int64_t, 2> T_shape  = {1, n64};
+            std::array<int64_t, 0> vi_shape = {};
 
-        for (int vi = 0; vi < NUM_VARIANTS; ++vi) {
-            for (const auto& inp : inputs) {
-                std::vector<float> T_buf(inp);
-                int64_t vi64 = static_cast<int64_t>(vi);
+            std::vector<double> nn_errors, solver_errors;
+            nn_errors.reserve(static_cast<size_t>(NUM_VARIANTS * num_inputs));
+            solver_errors.reserve(static_cast<size_t>(num_inputs));
 
-                std::vector<Ort::Value> ort_inputs;
-                ort_inputs.push_back(Ort::Value::CreateTensor<float>(
-                    mem, T_buf.data(), T_buf.size(),
-                    T_shape.data(), T_shape.size()));
-                ort_inputs.push_back(Ort::Value::CreateTensor<int64_t>(
-                    mem, &vi64, 1, vi_shape.data(), vi_shape.size()));
+            // seed depends on radius index + N so each (radius, N) pair gets
+            // different data but runs are reproducible
+            int radius_idx = static_cast<int>(
+                std::find(RADII.begin(), RADII.end(), radius) - RADII.begin());
+            std::mt19937 data_rng(42 + static_cast<unsigned>(radius_idx * 100 + n));
+            std::mt19937 nr_rng  (99 + static_cast<unsigned>(radius_idx * 100 + n));
 
-                auto outs = session.Run(Ort::RunOptions{},
-                    in_names, ort_inputs.data(), 2, out_names, 4);
-                float err = *outs[3].GetTensorData<float>();
-                nn_errors.push_back(static_cast<double>(err));
+            int processed = 0;
+            while (processed < num_inputs) {
+                int chunk_size = std::min(CHUNK_SIZE, num_inputs - processed);
+                auto chunk = randomChunk(n, chunk_size, data_rng, lo, hi);
+
+                // ── qdts.solver_nn ────────────────────────────────────────────
+                for (int vi = 0; vi < NUM_VARIANTS; ++vi) {
+                    int64_t vi64 = static_cast<int64_t>(vi);
+                    for (const auto& inp : chunk) {
+                        std::vector<float> T_buf(inp);
+                        std::vector<Ort::Value> ort_inputs;
+                        ort_inputs.push_back(Ort::Value::CreateTensor<float>(
+                            mem, T_buf.data(), T_buf.size(),
+                            T_shape.data(), T_shape.size()));
+                        ort_inputs.push_back(Ort::Value::CreateTensor<int64_t>(
+                            mem, &vi64, 1, vi_shape.data(), vi_shape.size()));
+                        auto outs = session.Run(Ort::RunOptions{},
+                            in_names, ort_inputs.data(), 2, out_names, 4);
+                        nn_errors.push_back(
+                            static_cast<double>(*outs[3].GetTensorData<float>()));
+                    }
+                }
+
+                // ── qdts.solver ───────────────────────────────────────────────
+                for (const auto& inp : chunk)
+                    solver_errors.push_back(qdts_solver::solveError(inp, nr_rng));
+
+                processed += chunk_size;
             }
-            size_t start = static_cast<size_t>(vi) * static_cast<size_t>(num_inputs);
-            double vi_mean = 0;
-            for (size_t k = start; k < start + static_cast<size_t>(num_inputs); ++k)
-                vi_mean += nn_errors[k];
-            vi_mean /= static_cast<double>(num_inputs);
-            std::cout << "    variant " << std::setw(2) << vi
-                      << "  mean error=" << std::fixed << std::setprecision(6)
-                      << vi_mean << "\n";
-        }
 
-        // ── qdts.solver ───────────────────────────────────────────────────────
-        std::cout << "  qdts.solver     running ... " << std::flush;
-        std::vector<double> solver_errors;
-        solver_errors.reserve(static_cast<size_t>(num_inputs));
-        {
-            std::mt19937 rng_nr(99 + static_cast<unsigned>(n));
-            for (const auto& inp : inputs)
-                solver_errors.push_back(qdts_solver::solveError(inp, rng_nr));
-        }
-        {
-            Stats s = computeStats(solver_errors);
-            std::cout << "mean error=" << std::fixed << std::setprecision(6)
-                      << s.mean << "\n";
-        }
+            // ── per-variant summary ───────────────────────────────────────────
+            for (int vi = 0; vi < NUM_VARIANTS; ++vi) {
+                size_t start = static_cast<size_t>(vi) * static_cast<size_t>(num_inputs);
+                double vi_mean = 0;
+                for (size_t k = start; k < start + static_cast<size_t>(num_inputs); ++k)
+                    vi_mean += nn_errors[k];
+                vi_mean /= static_cast<double>(num_inputs);
+                std::cout << "    variant " << std::setw(2) << vi
+                          << "  nn_mean=" << std::fixed << std::setprecision(6)
+                          << vi_mean << "\n";
+            }
+            {
+                Stats s = computeStats(solver_errors);
+                std::cout << "    NR solver  mean=" << std::fixed
+                          << std::setprecision(6) << s.mean << "\n";
+            }
 
-        all_nn_errors.insert(all_nn_errors.end(), nn_errors.begin(), nn_errors.end());
-        all_solver_errors.insert(all_solver_errors.end(), solver_errors.begin(), solver_errors.end());
-        results.push_back({n, computeStats(nn_errors), computeStats(solver_errors)});
+            results.push_back({radius, n, computeStats(nn_errors),
+                                         computeStats(solver_errors)});
+        }
     }
-
-    Stats overall_nn     = computeStats(all_nn_errors);
-    Stats overall_solver = computeStats(all_solver_errors);
 
     // ── text output ───────────────────────────────────────────────────────────
     std::string txt_path = out_base + ".txt";
     std::ofstream f(txt_path);
     if (!f) { std::cerr << "Cannot open " << txt_path << "\n"; return 1; }
 
-    auto hr = [&]() { f << std::string(90, '-') << "\n"; };
+    auto hr = [&](int w) { f << std::string(static_cast<size_t>(w), '-') << "\n"; };
 
     f << "QDTS Generation Quality Benchmark\n";
-    f << "inputs per N      : " << num_inputs << "\n";
-    f << "nn variants       : " << NUM_VARIANTS << "\n";
-    f << "N range           : " << N_MIN << " – " << N_MAX << "\n";
-    f << "error metric      : clamped reconstruction MSE (solver_nn) "
-         "/ reconstruction MSE (solver)\n\n";
+    f << "inputs per (radius, N) : " << num_inputs << "\n";
+    f << "chunk size             : " << CHUNK_SIZE << "\n";
+    f << "nn variants            : " << NUM_VARIANTS << "\n";
+    f << "N range                : " << N_MIN << " – " << N_MAX << "\n";
+    f << "data range             : [" << DATA_LO << ", " << DATA_LO << "+radius]\n";
+    f << "radii                  : ";
+    for (float r : RADII) f << r << " ";
+    f << "\nerror metric           : clamped MSE (solver_nn) / MSE (solver)\n\n";
 
-    f << std::left
-      << std::setw(5)  << "N"
-      << std::setw(18) << "nn mean error"
-      << std::setw(18) << "nn std error"
-      << std::setw(18) << "solver mean error"
-      << std::setw(18) << "solver std error"
-      << "\n";
-    hr();
-    f << std::fixed << std::setprecision(6);
-    for (auto& r : results)
-        f << std::left
+    float cur_radius = -1.f;
+    for (auto& r : results) {
+        if (r.radius != cur_radius) {
+            if (cur_radius >= 0) { hr(90); f << "\n"; }
+            cur_radius = r.radius;
+            f << "radius=" << r.radius
+              << "  inputs in [" << DATA_LO << ", "
+              << DATA_LO + r.radius << "]\n";
+            f << std::left
+              << std::setw(5)  << "N"
+              << std::setw(18) << "nn mean error"
+              << std::setw(18) << "nn std error"
+              << std::setw(18) << "solver mean error"
+              << std::setw(18) << "solver std error"
+              << "\n";
+            hr(77);
+        }
+        f << std::fixed << std::setprecision(6) << std::left
           << std::setw(5)  << r.n
           << std::setw(18) << r.nn.mean
           << std::setw(18) << r.nn.std_dev
           << std::setw(18) << r.solver.mean
           << std::setw(18) << r.solver.std_dev
           << "\n";
-    hr();
-    f << std::left
-      << std::setw(5)  << "ALL"
-      << std::setw(18) << overall_nn.mean
-      << std::setw(18) << overall_nn.std_dev
-      << std::setw(18) << overall_solver.mean
-      << std::setw(18) << overall_solver.std_dev
-      << "\n";
+    }
+    hr(90);
     f.close();
     std::cout << "\nText results  → " << txt_path << "\n";
 
@@ -322,11 +348,12 @@ int main(int argc, char* argv[]) {
     std::string csv_path = out_base + ".csv";
     std::ofstream c(csv_path);
     if (!c) { std::cerr << "Cannot open " << csv_path << "\n"; return 1; }
-    c << "N,nn_mean_error,nn_std_error,nn_min_error,nn_max_error,"
+    c << "radius,N,"
+         "nn_mean_error,nn_std_error,nn_min_error,nn_max_error,"
          "solver_mean_error,solver_std_error,solver_min_error,solver_max_error\n";
     c << std::fixed << std::setprecision(8);
     for (auto& r : results)
-        c << r.n << ","
+        c << r.radius << "," << r.n << ","
           << r.nn.mean     << "," << r.nn.std_dev     << ","
           << r.nn.min      << "," << r.nn.max          << ","
           << r.solver.mean << "," << r.solver.std_dev  << ","
@@ -343,30 +370,31 @@ int main(int argc, char* argv[]) {
     t << "% Auto-generated by benchmark_quality — do not edit\n"
          "% Required packages: booktabs, siunitx\n";
     t << "\\begin{table}[t]\n\\centering\n";
-    t << "\\caption{Reconstruction error (MSE) of \\texttt{qdts.solver\\_nn} (clamped)"
-         " and \\texttt{qdts.solver} for target spectra of size~$N$, aggregated over "
-      << num_inputs << "~random inputs drawn uniformly from $[0,1]$.}\n";
+    t << "\\caption{Reconstruction error (MSE) of \\texttt{qdts.solver\\_nn} and "
+         "\\texttt{qdts.solver} for target amplitudes drawn uniformly from "
+         "$[0.5,\\,0.5+r]$, across radii $r$ and harmonic count~$N$.}\n";
     t << "\\label{tab:quality_benchmark}\n";
-    t << "\\begin{tabular}{c"
+    t << "\\begin{tabular}{cc"
          " S[table-format=1.6] @{\\;$\\pm$\\;} S[table-format=1.6]"
          " S[table-format=1.6] @{\\;$\\pm$\\;} S[table-format=1.6]"
          "}\n";
     t << "\\toprule\n";
-    t << "$N$"
+    t << "$r$ & $N$"
          " & \\multicolumn{2}{c}{\\texttt{qdts.solver\\_nn}}"
          " & \\multicolumn{2}{c}{\\texttt{qdts.solver}} \\\\\n";
     t << "\\midrule\n";
     t << std::fixed << std::setprecision(6);
-    for (auto& r : results)
-        t << r.n
+    cur_radius = -1.f;
+    for (auto& r : results) {
+        if (r.radius != cur_radius) {
+            if (cur_radius >= 0) t << "\\midrule\n";
+            cur_radius = r.radius;
+        }
+        t << r.radius << " & " << r.n
           << " & " << r.nn.mean     << " & " << r.nn.std_dev
           << " & " << r.solver.mean << " & " << r.solver.std_dev
           << " \\\\\n";
-    t << "\\midrule\n";
-    t << "\\textbf{Overall}"
-      << " & " << overall_nn.mean     << " & " << overall_nn.std_dev
-      << " & " << overall_solver.mean << " & " << overall_solver.std_dev
-      << " \\\\\n";
+    }
     t << "\\bottomrule\n\\end{tabular}\n\\end{table}\n";
     t.close();
     std::cout << "LaTeX results → " << tex_path << "\n";

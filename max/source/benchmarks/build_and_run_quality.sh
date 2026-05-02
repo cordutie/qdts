@@ -104,16 +104,24 @@ echo "  Text  : ${OUT_BASE}.txt"
 echo "  CSV   : ${OUT_BASE}.csv"
 echo "  LaTeX : ${OUT_BASE}.tex"
 
-# ── plot ──────────────────────────────────────────────────────────────────────
+# ── plot (single-run, if CSV has no radius column) ───────────────────────────
 PLOT_SCRIPT="${SCRIPT_DIR}/plot_quality.py"
 PLOT_BASE="${OUT_BASE}_plot"
 
-if command -v python3 &>/dev/null && [[ -f "${PLOT_SCRIPT}" ]]; then
+# ── plot (multi-radius) ───────────────────────────────────────────────────────
+PLOT_RADII_SCRIPT="${SCRIPT_DIR}/plot_quality_radii.py"
+PLOT_RADII_BASE="${OUT_BASE}_radii_plot"
+
+if command -v python3 &>/dev/null; then
     echo ""
-    echo "Generating plots ..."
-    python3 "${PLOT_SCRIPT}" "${OUT_BASE}.csv" "${PLOT_BASE}"
+    echo "Generating multi-radius plots ..."
+    if [[ -f "${PLOT_RADII_SCRIPT}" ]]; then
+        python3 "${PLOT_RADII_SCRIPT}" "${OUT_BASE}.csv" "${PLOT_RADII_BASE}"
+    else
+        echo "Skipping (plot_quality_radii.py missing)."
+        echo "Run manually: python3 ${PLOT_RADII_SCRIPT} ${OUT_BASE}.csv ${PLOT_RADII_BASE}"
+    fi
 else
     echo ""
-    echo "Skipping plot (python3 not found or plot_quality.py missing)."
-    echo "Run manually: python3 ${PLOT_SCRIPT} ${OUT_BASE}.csv ${PLOT_BASE}"
+    echo "Skipping plots (python3 not found)."
 fi
